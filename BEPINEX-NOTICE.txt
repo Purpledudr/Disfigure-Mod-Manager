@@ -1,0 +1,10 @@
+Bundled dependency notice
+
+The all-in-one release contains an unmodified copy of:
+BepInEx 6.0.0-be.785, Unity IL2CPP, Windows x64, commit 6abdba4.
+
+Project source: https://github.com/BepInEx/BepInEx
+Official build: https://builds.bepinex.dev/projects/bepinex_be/785/
+License: GNU Lesser General Public License v2.1
+
+The complete BepInEx license is included as BEPINEX-LICENSE.txt.

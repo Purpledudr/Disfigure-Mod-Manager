@@ -1,0 +1,6 @@
+bin/
+obj/
+tools/__pycache__/
+translations/.repair-cache/
+translations/missing_runtime_strings.json
+translations/ru.encoding-corrupt.json
