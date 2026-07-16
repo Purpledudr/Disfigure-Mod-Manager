@@ -33,8 +33,9 @@ bin\Release\net6.0\DisfigureTranslationMod.dll
 ### All-in-one Windows x64 ZIP
 
 1. Extract the ZIP into the Disfigure game directory beside `Disfigure.exe`.
-2. Launch Disfigure. The first launch can take longer while BepInEx generates files for the installed game version.
-3. Press F8 to choose a language.
+file path should look something like C:\Users\username\SteamLibrary\steamapps\common\Disfigure
+3. Launch Disfigure. The first launch can take longer while BepInEx generates files for the installed game version.
+4. Press F8 to choose a language.
 
 This package includes the unmodified official BepInEx 6.0.0-be.785 Unity IL2CPP Windows x64 distribution. BepInEx is licensed under LGPL-2.1; its license and source/build links are included in the ZIP.
 
