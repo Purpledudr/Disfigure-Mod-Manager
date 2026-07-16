@@ -10,9 +10,10 @@ Choose the **all-in-one Windows x64 ZIP** unless you already have BepInEx 6 IL2C
 
 ## Install
 
-1. Open the Disfigure game directory containing `Disfigure.exe`.
-2. Extract the ZIP directly into that directory.
-3. Launch the game and press **F8** to choose a language.
+1. Download the ZIP file
+2. Open the Disfigure game directory containing `Disfigure.exe`.
+3. Extract the ZIP directly into that directory.
+4. Launch the game and press **F8** to choose a language.
 
 The game directory usually looks like `C:\Users\{username}\SteamLibrary\steamapps\common\Disfigure` or `C:\Program Files (x86)\Steam\steamapps\common\Disfigure`.
 
