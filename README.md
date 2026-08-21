@@ -8,6 +8,8 @@ A fan translation mod for the Windows version of Disfigure.
 
 Choose the **all-in-one Windows x64 ZIP** unless you already have BepInEx 6 IL2CPP installed.
 
+The repository also contains the [Disfigure Mod Manager](DisfigureModManager), which can install BepInEx, install this translation package, and manage future catalog plugins. Its Windows build is published automatically as a separate `manager-v*` release and is listed in [plugins.json](plugins.json) as an application, never as a BepInEx plugin.
+
 ## Install
 
 1. Download the ZIP file

@@ -1,0 +1,44 @@
+name: Release mod manager
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "DisfigureModManager/**"
+      - ".github/workflows/release-manager.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+      - name: Read version
+        shell: pwsh
+        run: |
+          [xml]$project = Get-Content DisfigureModManager/DisfigureModManager.csproj
+          "MANAGER_VERSION=$($project.Project.PropertyGroup.Version)" >> $env:GITHUB_ENV
+      - name: Test
+        run: dotnet run --project DisfigureModManager/DisfigureModManager.csproj -c Release -- --self-test
+      - name: Publish
+        run: dotnet publish DisfigureModManager/DisfigureModManager.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -o manager-publish
+      - name: Package
+        shell: pwsh
+        run: Compress-Archive -Path manager-publish/* -DestinationPath DisfigureModManager-win-x64.zip
+      - name: Create or update release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $tag = "manager-v$env:MANAGER_VERSION"
+          if (gh release view $tag) {
+            gh release upload $tag DisfigureModManager-win-x64.zip --clobber
+          } else {
+            gh release create $tag DisfigureModManager-win-x64.zip --title "Disfigure Mod Manager $env:MANAGER_VERSION" --notes "Windows x64 build of the Disfigure Mod Manager. Extract the ZIP and run DisfigureModManager.exe."
+          }
