@@ -27,7 +27,7 @@ internal static class SelfChecks
             Directory.CreateDirectory(Path.Combine(plugins, "Nested"));
             File.WriteAllBytes(Path.Combine(root, "Disfigure.exe"), []);
             var filename = "CheckPlugin.dll";
-            File.Copy(typeof(SelfChecks).Assembly.Location, Path.Combine(plugins, "Nested", filename));
+            File.Copy(Path.Combine(AppContext.BaseDirectory, "DisfigureModManager.dll"), Path.Combine(plugins, "Nested", filename));
             var installed = PluginService.Scan(root).Single();
             Check(installed.Enabled && installed.DllFilename == filename, "recursive enabled plugin scan");
             if (PluginService.IsGameRunning())
@@ -87,3 +87,4 @@ internal static class SelfChecks
         stream.WriteByte(1);
     }
 }
+
