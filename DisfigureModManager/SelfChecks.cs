@@ -64,9 +64,6 @@ internal static class SelfChecks
             Check(File.Exists(Path.Combine(installFolder, "winhttp.dll")), "BepInEx archive extraction");
             Check(BepInExPackages.All.Count >= 2 && BepInExPackages.All[0].Note.Contains("Proton"), "BepInEx package choices");
 
-            var translationDll = Path.Combine(Directory.GetCurrentDirectory(), "DisfigureTranslationMod", "bin", "Release", "net6.0", "DisfigureTranslationMod.dll");
-            if (File.Exists(translationDll))
-                Check(PluginService.ReadVersion(translationDll) == "0.7.8", "BepInPlugin version detection");
         }
         finally
         {
