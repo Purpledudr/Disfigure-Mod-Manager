@@ -1,0 +1,63 @@
+name: Release Translation Mod
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "*.cs"
+      - "DisfigureTranslationMod.csproj"
+      - "translations/*.json"
+      - "release-inputs/DisfigureTranslationMod.dll"
+      - "release/RELEASE_NOTES_0.7.9.md"
+      - ".github/workflows/release-translation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build release packages
+        shell: bash
+        run: |
+          set -euo pipefail
+          version="0.7.9"
+          mod="DisfigureTranslationMod-$version-mod-only.zip"
+          all="DisfigureTranslationMod-$version-all-in-one-win-x64.zip"
+          root="$PWD"
+
+          mkdir -p work/mod-only/BepInEx/plugins/DisfigureTranslationMod
+          mkdir -p work/mod-only/BepInEx/translations/DisfigureTranslationMod
+          cp release-inputs/DisfigureTranslationMod.dll work/mod-only/BepInEx/plugins/DisfigureTranslationMod/
+          for language in de en es fr ja pl pt ru zh; do
+            cp "translations/$language.json" work/mod-only/BepInEx/translations/DisfigureTranslationMod/
+          done
+          cp README.md work/mod-only/
+
+          curl -fL "https://builds.bepinex.dev/projects/bepinex_be/785/BepInEx-Unity.IL2CPP-win-x64-6.0.0-be.785%2B6abdba4.zip" -o bepinex.zip
+          unzip -q bepinex.zip -d work/all-in-one
+          mkdir -p work/all-in-one/BepInEx/plugins work/all-in-one/BepInEx/translations
+          cp -r work/mod-only/BepInEx/plugins/DisfigureTranslationMod work/all-in-one/BepInEx/plugins/
+          cp -r work/mod-only/BepInEx/translations/DisfigureTranslationMod work/all-in-one/BepInEx/translations/
+          cp README.md BEPINEX-NOTICE.txt work/all-in-one/
+          cp release-assets/BEPINEX-LICENSE.txt work/all-in-one/
+
+          (cd work/mod-only && zip -qr "$root/$mod" .)
+          (cd work/all-in-one && zip -qr "$root/$all" .)
+          sha256sum "$all" "$mod" > SHA256SUMS.txt
+      - name: Create or update release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          tag="v0.7.9"
+          assets=(DisfigureTranslationMod-0.7.9-all-in-one-win-x64.zip DisfigureTranslationMod-0.7.9-mod-only.zip SHA256SUMS.txt)
+          if gh release view "$tag" >/dev/null 2>&1; then
+            gh release upload "$tag" "${assets[@]}" --clobber
+            gh release edit "$tag" --title "DisfigureTranslationMod 0.7.9" --notes-file release/RELEASE_NOTES_0.7.9.md --latest
+          else
+            gh release create "$tag" "${assets[@]}" --title "DisfigureTranslationMod 0.7.9" --notes-file release/RELEASE_NOTES_0.7.9.md --latest
+          fi

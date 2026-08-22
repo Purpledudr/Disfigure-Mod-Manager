@@ -15,8 +15,8 @@
       "id": "translation-mod",
       "name": "Disfigure Translation Mod",
       "description": "Adds community language translations to Disfigure.",
-      "version": "0.7.8",
-      "downloadUrl": "https://github.com/Purpledudr/DisfigureTranslationMod/releases/download/v0.7.8/DisfigureTranslationMod-0.7.8-mod-only.zip",
+      "version": "0.7.9",
+      "downloadUrl": "https://github.com/Purpledudr/DisfigureTranslationMod/releases/download/v0.7.9/DisfigureTranslationMod-0.7.9-mod-only.zip",
       "dllFilename": "DisfigureTranslationMod.dll",
       "packageType": "zip",
       "archivePath": "BepInEx/plugins/DisfigureTranslationMod/DisfigureTranslationMod.dll",
@@ -34,4 +34,3 @@
     }
   ]
 }
-

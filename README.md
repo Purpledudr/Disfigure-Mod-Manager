@@ -46,4 +46,3 @@ Translations are machine-assisted and may still contain mistakes. Screenshots an
 ## More information
 
 Build instructions, configuration, translation-file details, testing information, and implementation notes are in [TECHNICAL.md](TECHNICAL.md).
-

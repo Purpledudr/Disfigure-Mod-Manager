@@ -10,6 +10,7 @@ JS_FIELD = re.compile(r'\b(?P<field>name|effect|text|description)\s*:\s*(?P<valu
 JS_OBJECT_NAME = re.compile(r'^\s*(?P<value>"(?:\\.|[^"\\])*")\s*:\s*\{', re.MULTILINE)
 PROTECTED = re.compile(r'(<[^>]+>|\{\d+\}|\n)')
 WORDS = re.compile(r'[^a-z0-9]+')
+NUMBER_ONLY = re.compile(r'^\s*[-+]?\d+(?:[.,]\d+)?[xMm]?\s*$')
 
 
 def read_json(path: Path) -> dict[str, str]:
@@ -75,6 +76,17 @@ def translate_name(source: str, translator) -> str:
     return translator(source.lower()).upper()
 
 
+def translate_identity(source: str, translator) -> str:
+    translated = translate_preserving_markup(source, lambda text: translator(text.lower()))
+    visible_letters = "".join(character for character in PROTECTED.sub("", source) if character.isalpha())
+    if visible_letters and visible_letters == visible_letters.upper():
+        translated = "".join(
+            part if PROTECTED.fullmatch(part) else part.upper()
+            for part in PROTECTED.split(translated)
+        )
+    return translated
+
+
 def validate(source: str, translated: str) -> None:
     source_markup = re.findall(r"<[^>]+>|\{\d+\}", source)
     translated_markup = re.findall(r"<[^>]+>|\{\d+\}", translated)
@@ -106,6 +118,7 @@ def main() -> None:
     parser.add_argument("--include-reference-names", action="store_true")
     parser.add_argument("--include-reference-descriptions", action="store_true")
     parser.add_argument("--retry-identity-names", action="store_true")
+    parser.add_argument("--retry-identities", action="store_true")
     parser.add_argument("--index-only", action="store_true")
     args = parser.parse_args()
 
@@ -137,7 +150,14 @@ def main() -> None:
                    if key not in translated and language not in glossary.get(key, {})]
         identity_names = [name.upper() for name in source_names
                           if name.upper() in selected and translated.get(name.upper()) == name.upper()]
-        if missing or args.retry_identity_names and identity_names:
+        identity_values = [source for source in detected
+                           if args.retry_identities
+                           and source in selected
+                           and translated.get(source) == source
+                           and any(character.isalpha() for character in source)
+                           and not NUMBER_ONLY.fullmatch(source)
+                           and language not in glossary.get(source, {})]
+        if missing or args.retry_identity_names and identity_names or identity_values:
             import argostranslate.translate
             engine = lambda text, code=language: argostranslate.translate.translate(text, "en", code)
         for index, source in enumerate(missing, 1):
@@ -148,6 +168,10 @@ def main() -> None:
             for index, source in enumerate(identity_names, 1):
                 translated[source] = translate_name(source, engine)
                 print(f"[{language} name {index}/{len(identity_names)}] {source!r}")
+        for index, source in enumerate(identity_values, 1):
+            translated[source] = translate_identity(source, engine)
+            validate(source, translated[source])
+            print(f"[{language} identity {index}/{len(identity_values)}] {source[:70]!r}")
         for source, languages in glossary.items():
             if source in selected and language in languages:
                 translated[source] = languages[language]
@@ -163,6 +187,7 @@ def self_test() -> None:
     assert normalize("2. LOOSE CANNON") == "loose cannon"
     assert JS_OBJECT_NAME.search('  "Charged Reactor": {').group("value") == '"Charged Reactor"'
     assert translate_name("TEMPEST", lambda value: "tempestad") == "TEMPESTAD"
+    assert translate_identity("HOLD <b>TO BUY</b>", lambda value: value.replace("hold", "mantener").replace("to buy", "para comprar")) == "MANTENER <b>PARA COMPRAR</b>"
 
 
 if __name__ == "__main__":

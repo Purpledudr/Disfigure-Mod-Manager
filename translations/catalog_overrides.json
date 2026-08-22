@@ -33,6 +33,8 @@
       "SPOTLIGHT": "聚光灯",
       "TEMPEST": "风暴",
       "TOTAL SCORE": "总分",
+      "Once per enemy, damaging with a <color=white>Current</color> will freeze them for a second. Upgrades that increase <color=white>Bullet Speed</color> will also apply to Current Speed by <color=white>50%</color> of the buffs.\n\n> Bullet Speed <color=white>+15%</color>": "每个敌人仅一次，使用<color=white>电流</color>造成伤害会将其冻结 1 秒。提升<color=white>子弹速度</color>的升级也会使电流速度获得其中<color=white>50%</color>的加成。\n\n> 子弹速度 <color=white>+15%</color>",
+      "Pressing ‘SPACE’ will <color=white>Dash</color>, giving you immunity from all damage for <color=white>0.5s</color> and Freezing nearby enemies for <color=white>2s</color>. Dashing sets off a Snare.\n\n> Movement Speed <color=white>+10%</color>": "按下“SPACE”可<color=white>冲刺</color>，使你在<color=white>0.5 秒</color>内免疫所有伤害，并冻结附近敌人<color=white>2 秒</color>。冲刺会触发一个陷阱。\n\n> 移动速度 <color=white>+10%</color>",
       "VISION ECHO": "视野回响",
       "YOU SURVIVED": "你活下来了"
     },

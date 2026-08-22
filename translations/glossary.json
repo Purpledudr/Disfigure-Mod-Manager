@@ -1,183 +1,905 @@
 {
-  "AKIMBO SMGS": { "fr": "PISTOLETS-MITRAILLEURS AKIMBO" },
-  "BATTLE AXE": { "fr": "HACHE DE GUERRE" },
-  "BLIGHT DECAY": { "fr": "DÉCOMPOSITION DU FLÉAU" },
-  "BLIND SHOT": { "fr": "TIR AVEUGLE" },
-  "BLOOD LUST": { "fr": "SOIF DE SANG" },
-  "BOOMERANG SCYTHE": { "fr": "FAUX BOOMERANG" },
-  "BULK ROUNDS": { "fr": "MUNITIONS LOURDES" },
-  "BURST RIFLE": { "fr": "FUSIL À RAFALES" },
-  "CALLISTO CATARACT": { "fr": "CATARACTE CALLISTO" },
-  "CALLISTO CURRENT": { "fr": "COURANT CALLISTO" },
-  "CHARGED ROUNDS": { "fr": "BALLES CHARGÉES" },
-  "CONCEALED FATIGUE": { "fr": "FATIGUE DISSIMULÉE" },
-  "DESTRUCTIVE PLASMA": { "fr": "PLASMA DESTRUCTEUR" },
-  "ELECTRICITY": { "fr": "ÉLECTRICITÉ" },
-  "ENEMY PROJECTILES": { "fr": "PROJECTILES ENNEMIS" },
-  "EVISCERATE": { "fr": "ÉVISCÉRATION" },
-  "GAUSS KATANA": { "fr": "KATANA GAUSS" },
-  "GREATSWORD": { "fr": "ESPADON" },
-  "GRENADE LAUNCHER": { "fr": "LANCE-GRENADES" },
-  "GUIDED ASTEROID": { "fr": "ASTÉROÏDE GUIDÉ" },
-  "HANDCANNON": { "fr": "CANON À MAIN" },
-  "HOLLOW POINT": { "fr": "BALLE À POINTE CREUSE" },
-  "KNIFE": { "fr": "COUTEAU" },
-  "LASER CATALYST": { "fr": "CATALYSEUR LASER" },
-  "LEVER-ACTION RIFLE": { "fr": "FUSIL À LEVIER" },
-  "LIGHT IRRITATION": { "fr": "IRRITATION LUMINEUSE" },
-  "LIGHT METEOR": { "fr": "MÉTÉORE LUMINEUX" },
-  "LIGHT TARGET": { "fr": "CIBLE LUMINEUSE" },
-  "MINIGUN": { "fr": "MINIGUN" },
-  "PISTOL": { "fr": "PISTOLET" },
-  "PLASMA CHARGE": { "fr": "CHARGE DE PLASMA" },
-  "PSYCH TRAIL": { "fr": "TRAÎNÉE PSYCHIQUE" },
-  "PULSE RIFLE": { "fr": "FUSIL À IMPULSIONS" },
-  "QUICK RADIATION": { "fr": "RADIATION RAPIDE" },
-  "RADIATION": { "fr": "RADIATION" },
-  "RAILGUN": { "fr": "RAILGUN" },
-  "SAW LAUNCHER": { "fr": "LANCE-SCIE" },
-  "SERRATION": { "fr": "DENTELURE" },
-  "SHOTGUN": { "fr": "FUSIL À POMPE" },
-  "SNIPER": { "fr": "FUSIL DE PRÉCISION" },
-  "SPECTRAL DAGGERS": { "fr": "DAGUES SPECTRALES" },
-  "SPOTLIGHT": { "fr": "PROJECTEUR" },
-  "STRIKE MAGNETISM": { "fr": "MAGNÉTISME DE FRAPPE" },
-  "THREE-FOLD LIGHT": { "fr": "LUMIÈRE TRIPLE" },
-  "TWIN KATANAS": { "fr": "KATANAS JUMEAUX" },
-  "WIND UP STRIKE": { "fr": "FRAPPE CHARGÉE" },
-  "1. VITALITY": { "fr": "1. VITALITÉ" },
-  "15. DEADZONE": { "fr": "15. ZONE MORTE" },
-  "16. HELL SHOT": { "fr": "16. TIR INFERNAL" },
-  "17. IRON LUNG": { "fr": "17. POUMON D'ACIER" },
-  "21. LAST STAND": { "fr": "21. DERNIER REMPART" },
-  "23. SLOTH": { "fr": "23. PARESSE" },
-  "24. TRIPLE TAKE": { "fr": "24. TRIPLE PRISE" },
-  "29. REDLINE": { "fr": "29. LIGNE ROUGE" },
-  "30. UNITY": { "fr": "30. UNITÉ" },
-  "31. PACT": { "fr": "31. PACTE" },
-  "32. FORGE": { "fr": "32. FORGE" },
-  "8. SHROUD": { "fr": "8. LINCEUL" },
-  "< BACK": { "fr": "< RETOUR" },
-  "ADRENALINE RUSH": { "fr": "POUSSÉE D'ADRÉNALINE" },
-  "ARTWORK": { "fr": "ILLUSTRATIONS" },
-  "Auto Fire": { "fr": "Tir automatique" },
-  "BACK": { "fr": "RETOUR" },
-  "BLINDING SLASH": { "fr": "ENTAILLE AVEUGLANTE" },
-  "BLOODLUST": { "fr": "SOIF DE SANG" },
-  "BLUE": { "fr": "BLEU" },
-  "BULLET OPACITY": { "fr": "OPACITÉ DES BALLES" },
-  "BULLET ZONE": { "fr": "ZONE DE BALLES" },
-  "BULLETS CUT": { "fr": "BALLES TRANCHANTES" },
-  "CAMERA MOVEMENT": { "fr": "MOUVEMENT DE LA CAMÉRA" },
-  "CHAINSAW BLADE": { "fr": "LAME DE TRONÇONNEUSE" },
-  "CHOOSE": { "fr": "CHOISIR" },
-  "CHOOSE A MUTATION": { "fr": "CHOISISSEZ UNE MUTATION" },
-  "CHOOSE WEAPON PERK": { "fr": "CHOISISSEZ UN ATOUT D'ARME" },
-  "CHROMATIC ABERRATION": { "fr": "ABERRATION CHROMATIQUE" },
-  "CLEAVER BLADE": { "fr": "LAME DE COUPERET" },
-  "COLOR SETTINGS": { "fr": "PARAMÈTRES DES COULEURS" },
-  "COMING SOON": { "fr": "BIENTÔT DISPONIBLE" },
-  "COMPOSER": { "fr": "COMPOSITEUR" },
-  "CREATOR": { "fr": "CRÉATEUR" },
-  "CREDITS": { "fr": "CRÉDITS" },
-  "CROSSHAIR COLOR": { "fr": "COULEUR DU RÉTICULE" },
-  "Choose an Upgrade": { "fr": "Choisissez une amélioration" },
-  "DAMAGE COLORS": { "fr": "COULEURS DES DÉGÂTS" },
-  "DAMAGE TEXT": { "fr": "TEXTE DES DÉGÂTS" },
-  "DELETE": { "fr": "SUPPRIMER" },
-  "DRAGON'S BREATH": { "fr": "SOUFFLE DU DRAGON" },
-  "EASY": { "fr": "FACILE" },
-  "EFFECTS VOLUME": { "fr": "VOLUME DES EFFETS" },
-  "ENEMY DAMAGE COLOR": { "fr": "COULEUR DES DÉGÂTS ENNEMIS" },
-  "EQUIPPED": { "fr": "ÉQUIPÉ" },
-  "EXIT WOUND": { "fr": "PLAIE DE SORTIE" },
-  "EXP INDICATOR": { "fr": "INDICATEUR D'EXP" },
-  "EXTENDED BARREL": { "fr": "CANON ALLONGÉ" },
-  "FILM GRAIN": { "fr": "GRAIN DE FILM" },
-  "FIRE": { "fr": "FEU" },
-  "FLAMING SLASH": { "fr": "ENTAILLE ENFLAMMÉE" },
-  "FLASH SHOT": { "fr": "TIR ÉCLAIR" },
-  "FPS LIMIT": { "fr": "LIMITE DE FPS" },
-  "FRIENDS": { "fr": "AMIS" },
-  "FULLSCREEN": { "fr": "PLEIN ÉCRAN" },
-  "GLOBAL": { "fr": "GLOBAL" },
-  "GREEN": { "fr": "VERT" },
-  "Gravity": { "fr": "Gravité" },
-  "HARD": { "fr": "DIFFICILE" },
-  "HEAVY EDGE": { "fr": "TRANCHANT LOURD" },
-  "ICE": { "fr": "GLACE" },
-  "INPUT SETTINGS": { "fr": "PARAMÈTRES DES COMMANDES" },
-  "JUMP BOOST": { "fr": "BOOST DE SAUT" },
-  "LEADERBOARDS ": { "fr": "CLASSEMENTS " },
-  "LEVEL UP": { "fr": "MONTÉE DE NIVEAU" },
-  "LEVEL {0}": { "fr": "NIVEAU {0}" },
-  "LIGHT ROUNDS": { "fr": "BALLES LÉGÈRES" },
-  "LUCKY BULLET": { "fr": "BALLE CHANCEUSE" },
-  "Loading...": { "fr": "Chargement..." },
-  "MAIN MENU": { "fr": "MENU PRINCIPAL" },
-  "MAP {0}": { "fr": "CARTE {0}" },
-  "MASTER VOLUME": { "fr": "VOLUME PRINCIPAL" },
-  "MOUNTED SNIPER": { "fr": "FUSIL DE PRÉCISION MONTÉ" },
-  "MUSIC": { "fr": "MUSIQUE" },
-  "MUTATION INTRO": { "fr": "INTRODUCTION DES MUTATIONS" },
-  "MUTATIONS": { "fr": "MUTATIONS" },
-  "Move Down": { "fr": "Descendre" },
-  "Move Left": { "fr": "Aller à gauche" },
-  "Move Right": { "fr": "Aller à droite" },
-  "Move Up": { "fr": "Monter" },
-  "NAME": { "fr": "NOM" },
-  "NEXT >": { "fr": "SUIVANT >" },
-  "NIGHTMARE": { "fr": "CAUCHEMAR" },
-  "NORMAL": { "fr": "NORMAL" },
-  "Nano Particle": { "fr": "Nanoparticule" },
-  "OFF": { "fr": "NON" },
-  "ON": { "fr": "OUI" },
-  "OPTIONS": { "fr": "OPTIONS" },
-  "PAUSED": { "fr": "PAUSE" },
-  "PERKS": { "fr": "ATOUTS" },
-  "PERSONAL": { "fr": "PERSONNEL" },
-  "PLAY": { "fr": "JOUER" },
-  "PLAYER COLOR": { "fr": "COULEUR DU JOUEUR" },
-  "PLAYER SHADOW": { "fr": "OMBRE DU JOUEUR" },
-  "POINTED TIP": { "fr": "POINTE ACÉRÉE" },
-  "PROGRAMMER": { "fr": "PROGRAMMEUR" },
-  "QUICK TRIGGER": { "fr": "DÉTENTE RAPIDE" },
-  "QUIT": { "fr": "QUITTER" },
-  "RANDOMIZE": { "fr": "ALÉATOIRE" },
-  "RANK": { "fr": "RANG" },
-  "RAPID FIRE": { "fr": "TIR RAPIDE" },
-  "RED": { "fr": "ROUGE" },
-  "REROLL": { "fr": "RELANCER" },
-  "RESET": { "fr": "RÉINITIALISER" },
-  "RESOLUTION": { "fr": "RÉSOLUTION" },
-  "RESTART": { "fr": "RECOMMENCER" },
-  "RESUME": { "fr": "REPRENDRE" },
-  "SCORE": { "fr": "SCORE" },
-  "SCREEN SHAKE": { "fr": "TREMBLEMENT DE L'ÉCRAN" },
-  "SCREEN TEXTURE": { "fr": "TEXTURE DE L'ÉCRAN" },
-  "SELECT DIFFICULTY": { "fr": "SÉLECTIONNER LA DIFFICULTÉ" },
-  "SELECT MAP": { "fr": "SÉLECTIONNER LA CARTE" },
-  "SETTINGS": { "fr": "PARAMÈTRES" },
-  "SHARPENED BLADE": { "fr": "LAME AFFÛTÉE" },
-  "SHOW FPS": { "fr": "AFFICHER LES FPS" },
-  "SLUGGISH ROUNDS": { "fr": "BALLES RALENTISSANTES" },
-  "SPECIAL EFFECTS": { "fr": "EFFETS SPÉCIAUX" },
-  "SUPPRESSOR": { "fr": "SILENCIEUX" },
-  "SYNERGY": { "fr": "SYNERGIE" },
-  "Shoot": { "fr": "Tirer" },
-  "Space": { "fr": "Espace" },
-  "TACTICAL FLASHLIGHT": { "fr": "LAMPE TACTIQUE" },
-  "TAKE AIM": { "fr": "VISER" },
-  "THERMAL SCOPE": { "fr": "LUNETTE THERMIQUE" },
-  "THIS GAME CONTAINS FLASHING LIGHTS THAT MAY BE UNSUITABLE FOR PEOPLE WITH PHOTOSENSITIVE EPILEPSY.\n\nPLAYER DISCRETION IS ADVISED.": { "fr": "CE JEU CONTIENT DES LUMIÈRES CLIGNOTANTES QUI PEUVENT NE PAS CONVENIR AUX PERSONNES SOUFFRANT D'ÉPILEPSIE PHOTOSENSIBLE.\n\nLA PRUDENCE DES JOUEURS EST CONSEILLÉE." },
-  "TOGGLE VISION": { "fr": "CHANGER DE VISION" },
-  "UNLOCKS": { "fr": "DÉBLOCAGES" },
-  "Use Upgrade": { "fr": "Utiliser l'amélioration" },
-  "VHS SCANLINES": { "fr": "LIGNES DE BALAYAGE VHS" },
-  "VSYNC": { "fr": "SYNCHRONISATION VERTICALE" },
-  "Vision": { "fr": "Vision" },
-  "WIDENED BLADE": { "fr": "LAME ÉLARGIE" },
-  "WILD FIRE SHOTS": { "fr": "TIRS DE FEU SAUVAGE" },
-  "Zoom": { "fr": "Zoom" },
-  "v1.0 COMING SOON": { "fr": "v1.0 BIENTÔT DISPONIBLE" }
+  "+{0}K credits": {
+    "de": "+{0}K Credits",
+    "es": "+{0}K créditos",
+    "fr": "+{0}K crédits",
+    "ja": "+{0}Kクレジット",
+    "pl": "+{0}K kredytów",
+    "pt": "+{0}K créditos",
+    "ru": "+{0}K кредитов",
+    "zh": "+{0}K 点数"
+  },
+  "1. VITALITY": {
+    "fr": "1. VITALITÉ"
+  },
+  "15. DEADZONE": {
+    "fr": "15. ZONE MORTE"
+  },
+  "16. HELL SHOT": {
+    "fr": "16. TIR INFERNAL"
+  },
+  "17. IRON LUNG": {
+    "fr": "17. POUMON D'ACIER"
+  },
+  "21. LAST STAND": {
+    "fr": "21. DERNIER REMPART"
+  },
+  "23. SLOTH": {
+    "fr": "23. PARESSE"
+  },
+  "24. TRIPLE TAKE": {
+    "fr": "24. TRIPLE PRISE"
+  },
+  "29. REDLINE": {
+    "fr": "29. LIGNE ROUGE"
+  },
+  "30. UNITY": {
+    "fr": "30. UNITÉ"
+  },
+  "31. PACT": {
+    "fr": "31. PACTE"
+  },
+  "32. FORGE": {
+    "fr": "32. FORGE"
+  },
+  "8. SHROUD": {
+    "fr": "8. LINCEUL"
+  },
+  "< BACK": {
+    "fr": "< RETOUR"
+  },
+  "ADRENALINE RUSH": {
+    "fr": "POUSSÉE D'ADRÉNALINE"
+  },
+  "AKIMBO SMGS": {
+    "fr": "PISTOLETS-MITRAILLEURS AKIMBO"
+  },
+  "ARTWORK": {
+    "fr": "ILLUSTRATIONS"
+  },
+  "Aliaskey Vasilieu": {
+    "de": "Aliaskey Vasilieu",
+    "es": "Aliaskey Vasilieu",
+    "fr": "Aliaskey Vasilieu",
+    "ja": "Aliaskey Vasilieu",
+    "pl": "Aliaskey Vasilieu",
+    "pt": "Aliaskey Vasilieu",
+    "ru": "Aliaskey Vasilieu",
+    "zh": "Aliaskey Vasilieu"
+  },
+  "Arftrooper": {
+    "de": "Arftrooper",
+    "es": "Arftrooper",
+    "fr": "Arftrooper",
+    "ja": "Arftrooper",
+    "pl": "Arftrooper",
+    "pt": "Arftrooper",
+    "ru": "Arftrooper",
+    "zh": "Arftrooper"
+  },
+  "Arftrooper\n": {
+    "de": "Arftrooper\n",
+    "es": "Arftrooper\n",
+    "fr": "Arftrooper\n",
+    "ja": "Arftrooper\n",
+    "pl": "Arftrooper\n",
+    "pt": "Arftrooper\n",
+    "ru": "Arftrooper\n",
+    "zh": "Arftrooper\n"
+  },
+  "ArisTheMage": {
+    "de": "ArisTheMage",
+    "es": "ArisTheMage",
+    "fr": "ArisTheMage",
+    "ja": "ArisTheMage",
+    "pl": "ArisTheMage",
+    "pt": "ArisTheMage",
+    "ru": "ArisTheMage",
+    "zh": "ArisTheMage"
+  },
+  "Arlensoul": {
+    "de": "Arlensoul",
+    "es": "Arlensoul",
+    "fr": "Arlensoul",
+    "ja": "Arlensoul",
+    "pl": "Arlensoul",
+    "pt": "Arlensoul",
+    "ru": "Arlensoul",
+    "zh": "Arlensoul"
+  },
+  "Arvid Eapen": {
+    "de": "Arvid Eapen",
+    "es": "Arvid Eapen",
+    "fr": "Arvid Eapen",
+    "ja": "Arvid Eapen",
+    "pl": "Arvid Eapen",
+    "pt": "Arvid Eapen",
+    "ru": "Arvid Eapen",
+    "zh": "Arvid Eapen"
+  },
+  "Auto Fire": {
+    "fr": "Tir automatique"
+  },
+  "BACK": {
+    "fr": "RETOUR"
+  },
+  "BATTLE AXE": {
+    "fr": "HACHE DE GUERRE"
+  },
+  "BLIGHT DECAY": {
+    "fr": "DÉCOMPOSITION DU FLÉAU"
+  },
+  "BLIND SHOT": {
+    "fr": "TIR AVEUGLE"
+  },
+  "BLINDING SLASH": {
+    "fr": "ENTAILLE AVEUGLANTE"
+  },
+  "BLOOD LUST": {
+    "fr": "SOIF DE SANG"
+  },
+  "BLOODLUST": {
+    "fr": "SOIF DE SANG"
+  },
+  "BLUE": {
+    "fr": "BLEU"
+  },
+  "BOOMERANG SCYTHE": {
+    "fr": "FAUX BOOMERANG"
+  },
+  "BULK ROUNDS": {
+    "fr": "MUNITIONS LOURDES"
+  },
+  "BULLET OPACITY": {
+    "fr": "OPACITÉ DES BALLES"
+  },
+  "BULLET ZONE": {
+    "fr": "ZONE DE BALLES"
+  },
+  "BULLETS CUT": {
+    "fr": "BALLES TRANCHANTES"
+  },
+  "BURST RIFLE": {
+    "fr": "FUSIL À RAFALES"
+  },
+  "Be Happy™": {
+    "de": "Be Happy™",
+    "es": "Be Happy™",
+    "fr": "Be Happy™",
+    "ja": "Be Happy™",
+    "pl": "Be Happy™",
+    "pt": "Be Happy™",
+    "ru": "Be Happy™",
+    "zh": "Be Happy™"
+  },
+  "Bera Gedikli": {
+    "de": "Bera Gedikli",
+    "es": "Bera Gedikli",
+    "fr": "Bera Gedikli",
+    "ja": "Bera Gedikli",
+    "pl": "Bera Gedikli",
+    "pt": "Bera Gedikli",
+    "ru": "Bera Gedikli",
+    "zh": "Bera Gedikli"
+  },
+  "Billbro Baggins": {
+    "de": "Billbro Baggins",
+    "es": "Billbro Baggins",
+    "fr": "Billbro Baggins",
+    "ja": "Billbro Baggins",
+    "pl": "Billbro Baggins",
+    "pt": "Billbro Baggins",
+    "ru": "Billbro Baggins",
+    "zh": "Billbro Baggins"
+  },
+  "CALLISTO CATARACT": {
+    "fr": "CATARACTE CALLISTO"
+  },
+  "CALLISTO CURRENT": {
+    "fr": "COURANT CALLISTO"
+  },
+  "CAMERA MOVEMENT": {
+    "fr": "MOUVEMENT DE LA CAMÉRA"
+  },
+  "CHAINSAW BLADE": {
+    "fr": "LAME DE TRONÇONNEUSE"
+  },
+  "CHARGED ROUNDS": {
+    "fr": "BALLES CHARGÉES"
+  },
+  "CHOOSE": {
+    "fr": "CHOISIR"
+  },
+  "CHOOSE A MUTATION": {
+    "fr": "CHOISISSEZ UNE MUTATION"
+  },
+  "CHOOSE WEAPON PERK": {
+    "fr": "CHOISISSEZ UN ATOUT D'ARME"
+  },
+  "CHROMATIC ABERRATION": {
+    "fr": "ABERRATION CHROMATIQUE"
+  },
+  "CLEAVER BLADE": {
+    "fr": "LAME DE COUPERET"
+  },
+  "COLOR SETTINGS": {
+    "fr": "PARAMÈTRES DES COULEURS"
+  },
+  "COMING SOON": {
+    "fr": "BIENTÔT DISPONIBLE"
+  },
+  "COMPOSER": {
+    "fr": "COMPOSITEUR"
+  },
+  "CONCEALED FATIGUE": {
+    "fr": "FATIGUE DISSIMULÉE"
+  },
+  "CREATOR": {
+    "fr": "CRÉATEUR"
+  },
+  "CREDITS": {
+    "fr": "CRÉDITS"
+  },
+  "CROSSHAIR COLOR": {
+    "fr": "COULEUR DU RÉTICULE"
+  },
+  "Choose an Upgrade": {
+    "fr": "Choisissez une amélioration"
+  },
+  "DAMAGE COLORS": {
+    "fr": "COULEURS DES DÉGÂTS"
+  },
+  "DAMAGE TEXT": {
+    "fr": "TEXTE DES DÉGÂTS"
+  },
+  "DELETE": {
+    "fr": "SUPPRIMER"
+  },
+  "DESTRUCTIVE PLASMA": {
+    "fr": "PLASMA DESTRUCTEUR"
+  },
+  "DRAGON'S BREATH": {
+    "fr": "SOUFFLE DU DRAGON"
+  },
+  "Darkhellthepro": {
+    "de": "Darkhellthepro",
+    "es": "Darkhellthepro",
+    "fr": "Darkhellthepro",
+    "ja": "Darkhellthepro",
+    "pl": "Darkhellthepro",
+    "pt": "Darkhellthepro",
+    "ru": "Darkhellthepro",
+    "zh": "Darkhellthepro"
+  },
+  "DevilAnjel": {
+    "de": "DevilAnjel",
+    "es": "DevilAnjel",
+    "fr": "DevilAnjel",
+    "ja": "DevilAnjel",
+    "pl": "DevilAnjel",
+    "pt": "DevilAnjel",
+    "ru": "DevilAnjel",
+    "zh": "DevilAnjel"
+  },
+  "EASY": {
+    "fr": "FACILE"
+  },
+  "EFFECTS VOLUME": {
+    "fr": "VOLUME DES EFFETS"
+  },
+  "ELECTRICITY": {
+    "fr": "ÉLECTRICITÉ"
+  },
+  "ENEMY DAMAGE COLOR": {
+    "fr": "COULEUR DES DÉGÂTS ENNEMIS"
+  },
+  "ENEMY PROJECTILES": {
+    "fr": "PROJECTILES ENNEMIS"
+  },
+  "EQUIPPED": {
+    "fr": "ÉQUIPÉ"
+  },
+  "EVISCERATE": {
+    "fr": "ÉVISCÉRATION"
+  },
+  "EXIT WOUND": {
+    "fr": "PLAIE DE SORTIE"
+  },
+  "EXP INDICATOR": {
+    "fr": "INDICATEUR D'EXP"
+  },
+  "EXTENDED BARREL": {
+    "fr": "CANON ALLONGÉ"
+  },
+  "Ezgi Akhan": {
+    "de": "Ezgi Akhan",
+    "es": "Ezgi Akhan",
+    "fr": "Ezgi Akhan",
+    "ja": "Ezgi Akhan",
+    "pl": "Ezgi Akhan",
+    "pt": "Ezgi Akhan",
+    "ru": "Ezgi Akhan",
+    "zh": "Ezgi Akhan"
+  },
+  "FILM GRAIN": {
+    "fr": "GRAIN DE FILM"
+  },
+  "FIRE": {
+    "fr": "FEU"
+  },
+  "FLAMING SLASH": {
+    "fr": "ENTAILLE ENFLAMMÉE"
+  },
+  "FLASH SHOT": {
+    "fr": "TIR ÉCLAIR"
+  },
+  "FPS LIMIT": {
+    "fr": "LIMITE DE FPS"
+  },
+  "FRIENDS": {
+    "fr": "AMIS"
+  },
+  "FULLSCREEN": {
+    "fr": "PLEIN ÉCRAN"
+  },
+  "GAUSS KATANA": {
+    "fr": "KATANA GAUSS"
+  },
+  "GLOBAL": {
+    "fr": "GLOBAL"
+  },
+  "GREATSWORD": {
+    "fr": "ESPADON"
+  },
+  "GREEN": {
+    "fr": "VERT"
+  },
+  "GRENADE LAUNCHER": {
+    "fr": "LANCE-GRENADES"
+  },
+  "GUIDED ASTEROID": {
+    "fr": "ASTÉROÏDE GUIDÉ"
+  },
+  "Gravity": {
+    "fr": "Gravité"
+  },
+  "HANDCANNON": {
+    "fr": "CANON À MAIN"
+  },
+  "HARD": {
+    "fr": "DIFFICILE"
+  },
+  "HEAVY EDGE": {
+    "fr": "TRANCHANT LOURD"
+  },
+  "HOLD TO PURCHASE FOR {0}K CREDITS": {
+    "de": "HALTEN, UM FÜR {0}K CREDITS ZU KAUFEN",
+    "es": "MANTÉN PARA COMPRAR POR {0}K CRÉDITOS",
+    "fr": "MAINTENEZ POUR ACHETER POUR {0}K CRÉDITS",
+    "ja": "{0}Kクレジットで購入するには長押し",
+    "pl": "PRZYTRZYMAJ, ABY KUPIĆ ZA {0}K KREDYTÓW",
+    "pt": "SEGURE PARA COMPRAR POR {0}K CRÉDITOS",
+    "ru": "УДЕРЖИВАЙТЕ, ЧТОБЫ КУПИТЬ ЗА {0}K КРЕДИТОВ",
+    "zh": "长按以使用 {0}K 点数购买"
+  },
+  "HOLLOW POINT": {
+    "fr": "BALLE À POINTE CREUSE"
+  },
+  "Ho Kim Quang": {
+    "de": "Ho Kim Quang",
+    "es": "Ho Kim Quang",
+    "fr": "Ho Kim Quang",
+    "ja": "Ho Kim Quang",
+    "pl": "Ho Kim Quang",
+    "pt": "Ho Kim Quang",
+    "ru": "Ho Kim Quang",
+    "zh": "Ho Kim Quang"
+  },
+  "ICE": {
+    "fr": "GLACE"
+  },
+  "INPUT SETTINGS": {
+    "fr": "PARAMÈTRES DES COMMANDES"
+  },
+  "JUMP BOOST": {
+    "fr": "BOOST DE SAUT"
+  },
+  "Jose Vasquez": {
+    "de": "Jose Vasquez",
+    "es": "Jose Vasquez",
+    "fr": "Jose Vasquez",
+    "ja": "Jose Vasquez",
+    "pl": "Jose Vasquez",
+    "pt": "Jose Vasquez",
+    "ru": "Jose Vasquez",
+    "zh": "Jose Vasquez"
+  },
+  "Jose Vasquez\n": {
+    "de": "Jose Vasquez\n",
+    "es": "Jose Vasquez\n",
+    "fr": "Jose Vasquez\n",
+    "ja": "Jose Vasquez\n",
+    "pl": "Jose Vasquez\n",
+    "pt": "Jose Vasquez\n",
+    "ru": "Jose Vasquez\n",
+    "zh": "Jose Vasquez\n"
+  },
+  "KNIFE": {
+    "fr": "COUTEAU"
+  },
+  "LASER CATALYST": {
+    "fr": "CATALYSEUR LASER"
+  },
+  "LEADERBOARDS ": {
+    "fr": "CLASSEMENTS "
+  },
+  "LEVEL UP": {
+    "fr": "MONTÉE DE NIVEAU"
+  },
+  "LEVEL {0}": {
+    "fr": "NIVEAU {0}"
+  },
+  "LEVER-ACTION RIFLE": {
+    "fr": "FUSIL À LEVIER"
+  },
+  "LIGHT IRRITATION": {
+    "fr": "IRRITATION LUMINEUSE"
+  },
+  "LIGHT METEOR": {
+    "fr": "MÉTÉORE LUMINEUX"
+  },
+  "LIGHT ROUNDS": {
+    "fr": "BALLES LÉGÈRES"
+  },
+  "LIGHT TARGET": {
+    "fr": "CIBLE LUMINEUSE"
+  },
+  "LUCKY BULLET": {
+    "fr": "BALLE CHANCEUSE"
+  },
+  "Loading...": {
+    "fr": "Chargement..."
+  },
+  "Loading... {0}%": {
+    "de": "Laden... {0}%",
+    "es": "Cargando... {0}%",
+    "fr": "Chargement... {0}%",
+    "ja": "読み込み中... {0}%",
+    "pl": "Ładowanie... {0}%",
+    "pt": "Carregando... {0}%",
+    "ru": "Загрузка... {0}%",
+    "zh": "加载中... {0}%"
+  },
+  "MAIN MENU": {
+    "fr": "MENU PRINCIPAL"
+  },
+  "MAP {0}": {
+    "fr": "CARTE {0}"
+  },
+  "MASTER VOLUME": {
+    "fr": "VOLUME PRINCIPAL"
+  },
+  "MINIGUN": {
+    "fr": "MINIGUN"
+  },
+  "MOUNTED SNIPER": {
+    "fr": "FUSIL DE PRÉCISION MONTÉ"
+  },
+  "MUSIC": {
+    "fr": "MUSIQUE"
+  },
+  "MUTATION INTRO": {
+    "fr": "INTRODUCTION DES MUTATIONS"
+  },
+  "MUTATIONS": {
+    "fr": "MUTATIONS"
+  },
+  "Mechanism Y": {
+    "de": "Mechanism Y",
+    "es": "Mechanism Y",
+    "fr": "Mechanism Y",
+    "ja": "Mechanism Y",
+    "pl": "Mechanism Y",
+    "pt": "Mechanism Y",
+    "ru": "Mechanism Y",
+    "zh": "Mechanism Y"
+  },
+  "Move Down": {
+    "fr": "Descendre"
+  },
+  "Move Left": {
+    "fr": "Aller à gauche"
+  },
+  "Move Right": {
+    "fr": "Aller à droite"
+  },
+  "Move Up": {
+    "fr": "Monter"
+  },
+  "NAME": {
+    "fr": "NOM"
+  },
+  "NEXT >": {
+    "fr": "SUIVANT >"
+  },
+  "NIGHTMARE": {
+    "fr": "CAUCHEMAR"
+  },
+  "NORMAL": {
+    "fr": "NORMAL"
+  },
+  "Nano Particle": {
+    "fr": "Nanoparticule"
+  },
+  "OFF": {
+    "fr": "NON"
+  },
+  "ON": {
+    "fr": "OUI"
+  },
+  "OPTIONS": {
+    "fr": "OPTIONS"
+  },
+  "PAUSED": {
+    "fr": "PAUSE"
+  },
+  "PERKS": {
+    "fr": "ATOUTS"
+  },
+  "PERSONAL": {
+    "fr": "PERSONNEL"
+  },
+  "PISTOL": {
+    "fr": "PISTOLET"
+  },
+  "PLASMA CHARGE": {
+    "fr": "CHARGE DE PLASMA"
+  },
+  "PLAY": {
+    "fr": "JOUER"
+  },
+  "PLAYER COLOR": {
+    "fr": "COULEUR DU JOUEUR"
+  },
+  "PLAYER SHADOW": {
+    "fr": "OMBRE DU JOUEUR"
+  },
+  "POINTED TIP": {
+    "fr": "POINTE ACÉRÉE"
+  },
+  "PROGRAMMER": {
+    "fr": "PROGRAMMEUR"
+  },
+  "PSYCH TRAIL": {
+    "fr": "TRAÎNÉE PSYCHIQUE"
+  },
+  "PULSE RIFLE": {
+    "fr": "FUSIL À IMPULSIONS"
+  },
+  "QUICK RADIATION": {
+    "fr": "RADIATION RAPIDE"
+  },
+  "QUICK TRIGGER": {
+    "fr": "DÉTENTE RAPIDE"
+  },
+  "QUIT": {
+    "fr": "QUITTER"
+  },
+  "RADIATION": {
+    "fr": "RADIATION"
+  },
+  "RAILGUN": {
+    "fr": "RAILGUN"
+  },
+  "RANDOMIZE": {
+    "fr": "ALÉATOIRE"
+  },
+  "RANK": {
+    "fr": "RANG"
+  },
+  "RAPID FIRE": {
+    "fr": "TIR RAPIDE"
+  },
+  "RED": {
+    "fr": "ROUGE"
+  },
+  "REROLL": {
+    "fr": "RELANCER"
+  },
+  "RESET": {
+    "fr": "RÉINITIALISER"
+  },
+  "RESOLUTION": {
+    "fr": "RÉSOLUTION"
+  },
+  "RESTART": {
+    "fr": "RECOMMENCER"
+  },
+  "RESUME": {
+    "fr": "REPRENDRE"
+  },
+  "Rayan Pal": {
+    "de": "Rayan Pal",
+    "es": "Rayan Pal",
+    "fr": "Rayan Pal",
+    "ja": "Rayan Pal",
+    "pl": "Rayan Pal",
+    "pt": "Rayan Pal",
+    "ru": "Rayan Pal",
+    "zh": "Rayan Pal"
+  },
+  "Rayan Pal\n": {
+    "de": "Rayan Pal\n",
+    "es": "Rayan Pal\n",
+    "fr": "Rayan Pal\n",
+    "ja": "Rayan Pal\n",
+    "pl": "Rayan Pal\n",
+    "pt": "Rayan Pal\n",
+    "ru": "Rayan Pal\n",
+    "zh": "Rayan Pal\n"
+  },
+  "SAW LAUNCHER": {
+    "fr": "LANCE-SCIE"
+  },
+  "SCORE": {
+    "fr": "SCORE"
+  },
+  "SCORE MULTIPLIER: {0}x": {
+    "de": "PUNKTMULTIPLIKATOR: {0}x",
+    "es": "MULTIPLICADOR DE PUNTUACIÓN: {0}x",
+    "fr": "MULTIPLICATEUR DE SCORE : {0}x",
+    "ja": "スコア倍率: {0}x",
+    "pl": "MNOŻNIK WYNIKU: {0}x",
+    "pt": "MULTIPLICADOR DE PONTUAÇÃO: {0}x",
+    "ru": "МНОЖИТЕЛЬ СЧЁТА: {0}x",
+    "zh": "分数倍率：{0}x"
+  },
+  "SCREEN SHAKE": {
+    "fr": "TREMBLEMENT DE L'ÉCRAN"
+  },
+  "SCREEN TEXTURE": {
+    "fr": "TEXTURE DE L'ÉCRAN"
+  },
+  "SELECT DIFFICULTY": {
+    "fr": "SÉLECTIONNER LA DIFFICULTÉ"
+  },
+  "SELECT MAP": {
+    "fr": "SÉLECTIONNER LA CARTE"
+  },
+  "SERRATION": {
+    "fr": "DENTELURE"
+  },
+  "SETTINGS": {
+    "fr": "PARAMÈTRES"
+  },
+  "SHARPENED BLADE": {
+    "fr": "LAME AFFÛTÉE"
+  },
+  "SHOTGUN": {
+    "fr": "FUSIL À POMPE"
+  },
+  "SHOW FPS": {
+    "fr": "AFFICHER LES FPS"
+  },
+  "SLUGGISH ROUNDS": {
+    "fr": "BALLES RALENTISSANTES"
+  },
+  "SNIPER": {
+    "fr": "FUSIL DE PRÉCISION"
+  },
+  "SPECIAL EFFECTS": {
+    "fr": "EFFETS SPÉCIAUX"
+  },
+  "SPECTRAL DAGGERS": {
+    "fr": "DAGUES SPECTRALES"
+  },
+  "SPOTLIGHT": {
+    "fr": "PROJECTEUR"
+  },
+  "STRIKE MAGNETISM": {
+    "fr": "MAGNÉTISME DE FRAPPE"
+  },
+  "SUPPRESSOR": {
+    "fr": "SILENCIEUX"
+  },
+  "SYNERGY": {
+    "fr": "SYNERGIE"
+  },
+  "Schtroumph perdant": {
+    "de": "Schtroumph perdant",
+    "es": "Schtroumph perdant",
+    "fr": "Schtroumph perdant",
+    "ja": "Schtroumph perdant",
+    "pl": "Schtroumph perdant",
+    "pt": "Schtroumph perdant",
+    "ru": "Schtroumph perdant",
+    "zh": "Schtroumph perdant"
+  },
+  "Shaunak Sawant": {
+    "de": "Shaunak Sawant",
+    "es": "Shaunak Sawant",
+    "fr": "Shaunak Sawant",
+    "ja": "Shaunak Sawant",
+    "pl": "Shaunak Sawant",
+    "pt": "Shaunak Sawant",
+    "ru": "Shaunak Sawant",
+    "zh": "Shaunak Sawant"
+  },
+  "Shaunak Sawant\n": {
+    "de": "Shaunak Sawant\n",
+    "es": "Shaunak Sawant\n",
+    "fr": "Shaunak Sawant\n",
+    "ja": "Shaunak Sawant\n",
+    "pl": "Shaunak Sawant\n",
+    "pt": "Shaunak Sawant\n",
+    "ru": "Shaunak Sawant\n",
+    "zh": "Shaunak Sawant\n"
+  },
+  "Shoot": {
+    "fr": "Tirer"
+  },
+  "Space": {
+    "fr": "Espace"
+  },
+  "Steven Su": {
+    "de": "Steven Su",
+    "es": "Steven Su",
+    "fr": "Steven Su",
+    "ja": "Steven Su",
+    "pl": "Steven Su",
+    "pt": "Steven Su",
+    "ru": "Steven Su",
+    "zh": "Steven Su"
+  },
+  "TACTICAL FLASHLIGHT": {
+    "fr": "LAMPE TACTIQUE"
+  },
+  "TAKE AIM": {
+    "fr": "VISER"
+  },
+  "THERMAL SCOPE": {
+    "fr": "LUNETTE THERMIQUE"
+  },
+  "THIS GAME CONTAINS FLASHING LIGHTS THAT MAY BE UNSUITABLE FOR PEOPLE WITH PHOTOSENSITIVE EPILEPSY.\n\nPLAYER DISCRETION IS ADVISED.": {
+    "fr": "CE JEU CONTIENT DES LUMIÈRES CLIGNOTANTES QUI PEUVENT NE PAS CONVENIR AUX PERSONNES SOUFFRANT D'ÉPILEPSIE PHOTOSENSIBLE.\n\nLA PRUDENCE DES JOUEURS EST CONSEILLÉE."
+  },
+  "THREE-FOLD LIGHT": {
+    "fr": "LUMIÈRE TRIPLE"
+  },
+  "TOGGLE VISION": {
+    "fr": "CHANGER DE VISION"
+  },
+  "TWIN KATANAS": {
+    "fr": "KATANAS JUMEAUX"
+  },
+  "The Ghost": {
+    "de": "The Ghost",
+    "es": "The Ghost",
+    "fr": "The Ghost",
+    "ja": "The Ghost",
+    "pl": "The Ghost",
+    "pt": "The Ghost",
+    "ru": "The Ghost",
+    "zh": "The Ghost"
+  },
+  "UNLOCK FOR {0}K": {
+    "de": "FÜR {0}K FREISCHALTEN",
+    "es": "DESBLOQUEAR POR {0}K",
+    "fr": "DÉBLOQUER POUR {0}K",
+    "ja": "{0}Kでアンロック",
+    "pl": "ODBLOKUJ ZA {0}K",
+    "pt": "DESBLOQUEAR POR {0}K",
+    "ru": "РАЗБЛОКИРОВАТЬ ЗА {0}K",
+    "zh": "花费 {0}K 解锁"
+  },
+  "UNLOCKS": {
+    "fr": "DÉBLOCAGES"
+  },
+  "Use Upgrade": {
+    "fr": "Utiliser l'amélioration"
+  },
+  "VHS SCANLINES": {
+    "fr": "LIGNES DE BALAYAGE VHS"
+  },
+  "VSYNC": {
+    "fr": "SYNCHRONISATION VERTICALE"
+  },
+  "Vikram Ramesh": {
+    "de": "Vikram Ramesh",
+    "es": "Vikram Ramesh",
+    "fr": "Vikram Ramesh",
+    "ja": "Vikram Ramesh",
+    "pl": "Vikram Ramesh",
+    "pt": "Vikram Ramesh",
+    "ru": "Vikram Ramesh",
+    "zh": "Vikram Ramesh"
+  },
+  "Vision": {
+    "fr": "Vision"
+  },
+  "WIDENED BLADE": {
+    "fr": "LAME ÉLARGIE"
+  },
+  "WILD FIRE SHOTS": {
+    "fr": "TIRS DE FEU SAUVAGE"
+  },
+  "WIND UP STRIKE": {
+    "fr": "FRAPPE CHARGÉE"
+  },
+  "Zoe “Squinch” Allen": {
+    "de": "Zoe “Squinch” Allen",
+    "es": "Zoe “Squinch” Allen",
+    "fr": "Zoe “Squinch” Allen",
+    "ja": "Zoe “Squinch” Allen",
+    "pl": "Zoe “Squinch” Allen",
+    "pt": "Zoe “Squinch” Allen",
+    "ru": "Zoe “Squinch” Allen",
+    "zh": "Zoe “Squinch” Allen"
+  },
+  "Zoom": {
+    "fr": "Zoom"
+  },
+  "cheese": {
+    "de": "cheese",
+    "es": "cheese",
+    "fr": "cheese",
+    "ja": "cheese",
+    "pl": "cheese",
+    "pt": "cheese",
+    "ru": "cheese",
+    "zh": "cheese"
+  },
+  "senpai": {
+    "de": "senpai",
+    "es": "senpai",
+    "fr": "senpai",
+    "ja": "senpai",
+    "pl": "senpai",
+    "pt": "senpai",
+    "ru": "senpai",
+    "zh": "senpai"
+  },
+  "v1.0 COMING SOON": {
+    "fr": "v1.0 BIENTÔT DISPONIBLE"
+  },
+  "{0} -> <color=#33D959>Unlimited</color>": {
+    "de": "{0} -> <color=#33D959>Unbegrenzt</color>",
+    "es": "{0} -> <color=#33D959>Ilimitado</color>",
+    "fr": "{0} -> <color=#33D959>Illimité</color>",
+    "ja": "{0} -> <color=#33D959>無制限</color>",
+    "pl": "{0} -> <color=#33D959>Bez limitu</color>",
+    "pt": "{0} -> <color=#33D959>Ilimitado</color>",
+    "ru": "{0} -> <color=#33D959>Без ограничений</color>",
+    "zh": "{0} -> <color=#33D959>无限制</color>"
+  },
+  "{0} remaining \n(this run)": {
+    "de": "{0} verbleibend \n(in diesem Lauf)",
+    "es": "{0} restantes \n(esta partida)",
+    "fr": "{0} restants \n(cette partie)",
+    "ja": "残り{0} \n(今回のラン)",
+    "pl": "Pozostało: {0} \n(w tym podejściu)",
+    "pt": "{0} restantes \n(nesta partida)",
+    "ru": "Осталось: {0} \n(в этом забеге)",
+    "zh": "剩余 {0} \n(本次游戏)"
+  },
+  "{0}M": {
+    "de": "{0}M",
+    "es": "{0}M",
+    "fr": "{0}M",
+    "ja": "{0}M",
+    "pl": "{0}M",
+    "pt": "{0}M",
+    "ru": "{0}M",
+    "zh": "{0}M"
+  },
+  "{0}x": {
+    "de": "{0}x",
+    "es": "{0}x",
+    "fr": "{0}x",
+    "ja": "{0}x",
+    "pl": "{0}x",
+    "pt": "{0}x",
+    "ru": "{0}x",
+    "zh": "{0}x"
+  }
 }
