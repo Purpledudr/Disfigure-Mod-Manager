@@ -4,7 +4,7 @@ A simple desktop manager for Disfigure BepInEx plugins. It detects the game fold
 
 ## Download
 
-[Download Disfigure Mod Manager for Windows](https://github.com/Purpledudr/DisfigureModManager/releases/download/manager-v1.0.0/DisfigureModManager-win-x64.zip)
+[Download Disfigure Mod Manager for Windows](https://github.com/Purpledudr/Disfigure-Mod-Manager/releases/download/manager-v1.0.0/DisfigureModManager-win-x64.zip)
 
 Extract the ZIP and run `DisfigureModManager.exe`. The manager automatically looks for Disfigure in Steam libraries; use **Browse** if the game is elsewhere.
 
@@ -42,4 +42,3 @@ Supported languages are English, Español, Français, Русский, Deutsch, P
 - [`plugins.json`](plugins.json): Public application and plugin catalog
 
 Build instructions and implementation details for the Translation Mod are in [TECHNICAL.md](TECHNICAL.md).
-
