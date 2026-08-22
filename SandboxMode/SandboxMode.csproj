@@ -1,11 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <AssemblyName>DisfigureTranslationMod</AssemblyName>
-    <RootNamespace>DisfigureTranslationMod</RootNamespace>
-    <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
-    <Version>0.7.8</Version>
+    <Version>0.3.70</Version>
     <NuGetAudit>false</NuGetAudit>
     <DisfigureDir Condition="'$(DisfigureDir)' == ''">D:\SteamLibrary\steamapps\common\Disfigure</DisfigureDir>
     <BepInExDir>$(DisfigureDir)\BepInEx</BepInExDir>
@@ -19,14 +16,15 @@
     <Reference Include="Il2CppInterop.HarmonySupport" HintPath="$(BepInExDir)\core\Il2CppInterop.HarmonySupport.dll" Private="false" />
     <Reference Include="Il2Cppmscorlib" HintPath="$(BepInExDir)\interop\Il2Cppmscorlib.dll" Private="false" />
     <Reference Include="Assembly-CSharp" HintPath="$(BepInExDir)\interop\Assembly-CSharp.dll" Private="false" />
-    <Reference Include="Unity.TextMeshPro" HintPath="$(BepInExDir)\interop\Unity.TextMeshPro.dll" Private="false" />
+    <Reference Include="Unity.InputSystem" HintPath="$(BepInExDir)\interop\Unity.InputSystem.dll" Private="false" />
+    <Reference Include="Unity.RenderPipelines.Universal.Runtime" HintPath="$(BepInExDir)\interop\Unity.RenderPipelines.Universal.Runtime.dll" Private="false" />
+    <Reference Include="UnityEngine.AnimationModule" HintPath="$(BepInExDir)\interop\UnityEngine.AnimationModule.dll" Private="false" />
     <Reference Include="UnityEngine.CoreModule" HintPath="$(BepInExDir)\interop\UnityEngine.CoreModule.dll" Private="false" />
     <Reference Include="UnityEngine.IMGUIModule" HintPath="$(BepInExDir)\interop\UnityEngine.IMGUIModule.dll" Private="false" />
-    <Reference Include="Unity.InputSystem" HintPath="$(BepInExDir)\interop\Unity.InputSystem.dll" Private="false" />
-    <Reference Include="UnityEngine.TextCoreFontEngineModule" HintPath="$(BepInExDir)\interop\UnityEngine.TextCoreFontEngineModule.dll" Private="false" />
-    <Reference Include="UnityEngine.TextCoreTextEngineModule" HintPath="$(BepInExDir)\interop\UnityEngine.TextCoreTextEngineModule.dll" Private="false" />
+    <Reference Include="UnityEngine.ImageConversionModule" HintPath="$(BepInExDir)\interop\UnityEngine.ImageConversionModule.dll" Private="false" />
     <Reference Include="UnityEngine.TextRenderingModule" HintPath="$(BepInExDir)\interop\UnityEngine.TextRenderingModule.dll" Private="false" />
-    <Reference Include="UnityEngine.UI" HintPath="$(BepInExDir)\interop\UnityEngine.UI.dll" Private="false" />
     <Reference Include="UnityEngine.UIModule" HintPath="$(BepInExDir)\interop\UnityEngine.UIModule.dll" Private="false" />
+    <Reference Include="UnityEngine.UI" HintPath="$(BepInExDir)\interop\UnityEngine.UI.dll" Private="false" />
   </ItemGroup>
 </Project>
+

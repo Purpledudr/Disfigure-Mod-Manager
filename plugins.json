@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "applications": [
+    {
+      "id": "disfigure-mod-manager",
+      "name": "Disfigure Mod Manager",
+      "description": "Install and manage Disfigure BepInEx plugins.",
+      "version": "1.0.0",
+      "downloadUrl": "https://github.com/Purpledudr/DisfigureTranslationMod/releases/download/manager-v1.0.0/DisfigureModManager-win-x64.zip",
+      "filename": "DisfigureModManager-win-x64.zip"
+    }
+  ],
+  "plugins": [
+    {
+      "id": "translation-mod",
+      "name": "Disfigure Translation Mod",
+      "description": "Adds community language translations to Disfigure.",
+      "version": "0.7.8",
+      "downloadUrl": "https://github.com/Purpledudr/DisfigureTranslationMod/releases/download/v0.7.8/DisfigureTranslationMod-0.7.8-mod-only.zip",
+      "dllFilename": "DisfigureTranslationMod.dll",
+      "packageType": "zip",
+      "archivePath": "BepInEx/plugins/DisfigureTranslationMod/DisfigureTranslationMod.dll",
+      "available": true
+    },
+    {
+      "id": "sandbox-mode",
+      "name": "Sandbox Mode",
+      "description": "Open an in-run panel to manage upgrades, set the timer, and spawn enemies.",
+      "version": "0.3.70",
+      "downloadUrl": "https://github.com/Purpledudr/DisfigureTranslationMod/releases/download/sandbox-v0.3.70/SandboxMode.dll",
+      "dllFilename": "SandboxMode.dll",
+      "packageType": "dll",
+      "available": true
+    }
+  ]
+}
+
