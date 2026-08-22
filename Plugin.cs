@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 
 namespace DisfigureTranslationMod;
 
-[BepInPlugin("casto.disfigure.translation-mod", "DisfigureTranslationMod", "0.7.8")]
+[BepInPlugin("casto.disfigure.translation-mod", "DisfigureTranslationMod", "0.7.9")]
 public sealed class Plugin : BasePlugin
 {
     private ConfigFile? modConfig;

@@ -2,6 +2,8 @@
 
 DisfigureTranslationMod is a BepInEx 6 IL2CPP plugin that discovers and replaces TextMeshPro and legacy Unity UI text at runtime. Loaded active and inactive text is pretranslated before menus open. Targeted game-method patches translate upgrade and tooltip content immediately; periodic scans remain for discovery and fallback.
 
+For the reusable investigation process, IL2CPP lessons, failed approaches, and a checklist for similar games, see [MODDING_GUIDE.md](MODDING_GUIDE.md).
+
 ## Build
 
 Prerequisites:

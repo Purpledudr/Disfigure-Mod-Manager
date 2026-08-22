@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using BepInEx.Logging;
 using HarmonyLib;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
+using TMPro;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -63,6 +65,43 @@ internal static class PopupTranslation
         }
     }
 
+    internal static void Translate(TMP_Text? component, string context = "TMP text")
+    {
+        if (component == null || manager == null || settings?.Enabled.Value != true)
+        {
+            return;
+        }
+
+        try
+        {
+            var source = component.text;
+            if (string.IsNullOrWhiteSpace(source))
+            {
+                return;
+            }
+
+            if (settings.DetectionEnabled.Value
+                && !manager.IsTranslatedOutput(source)
+                && manager.Observe(source))
+            {
+                manager.SaveDetected();
+            }
+
+            var matched = manager.TryTranslate(source, out var translated);
+            Audit(context, source, translated, matched);
+            if (settings.ReplacementEnabled.Value && matched && translated != source)
+            {
+                fontSupport?.Check(component, translated);
+                component.text = translated;
+                TextLayoutSupport.FitLabels(component, source, translated);
+            }
+        }
+        catch (Exception ex)
+        {
+            logger?.LogWarning($"TMP translation failed: {ex.Message}");
+        }
+    }
+
     internal static string TranslateValue(string source, string? context = null)
     {
         if (string.IsNullOrWhiteSpace(source) || manager == null || settings?.Enabled.Value != true)
@@ -82,6 +121,18 @@ internal static class PopupTranslation
         }
 
         return settings.ReplacementEnabled.Value && matched ? translated : source;
+    }
+
+    internal static void FinishAssignment(TMP_Text component, string source)
+    {
+        var translated = component.text;
+        if (translated == source)
+        {
+            return;
+        }
+
+        fontSupport?.Check(component, translated);
+        TextLayoutSupport.FitLabels(component, source, translated);
     }
 
     internal static Il2CppStringArray TranslateCopy(Il2CppStringArray values, string context)
@@ -138,6 +189,45 @@ internal static class PopupTranslation
     }
 
     internal static void ResetAudit() => audited.Clear();
+}
+
+[HarmonyPatch(typeof(TMP_Text), "set_text")]
+internal static class TmpTextAssignmentPatch
+{
+    private static void Prefix(ref string __0, out string __state)
+    {
+        __state = __0;
+        __0 = PopupTranslation.TranslateValue(__0);
+    }
+
+    private static void Postfix(TMP_Text __instance, string __state)
+    {
+        PopupTranslation.FinishAssignment(__instance, __state);
+    }
+}
+
+[HarmonyPatch]
+internal static class TmpTextActivationPatch
+{
+    private static IEnumerable<MethodBase> TargetMethods()
+    {
+        var ugui = AccessTools.Method(typeof(TextMeshProUGUI), "OnEnable");
+        if (ugui != null)
+        {
+            yield return ugui;
+        }
+
+        var world = AccessTools.Method(typeof(TextMeshPro), "OnEnable");
+        if (world != null)
+        {
+            yield return world;
+        }
+    }
+
+    private static void Postfix(TMP_Text __instance)
+    {
+        PopupTranslation.Translate(__instance);
+    }
 }
 
 [HarmonyPatch(typeof(Upgrade), nameof(Upgrade.getName))]
@@ -352,16 +442,6 @@ internal static class StatUpgradeLateRewritePatch
     {
         PopupTranslation.Translate(__instance.panelname, "stat upgrade update name");
         PopupTranslation.Translate(__instance.paneldisc, "stat upgrade update description");
-    }
-}
-
-[HarmonyPatch(typeof(upgradepath), nameof(upgradepath.Update))]
-internal static class UpgradePathLateRewritePatch
-{
-    private static void Postfix(upgradepath __instance)
-    {
-        PopupTranslation.Translate(__instance.panelname, "upgrade path update name");
-        PopupTranslation.Translate(__instance.paneldisc, "upgrade path update description");
     }
 }
 

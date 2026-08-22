@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using BepInEx.Logging;
+using Il2CppInterop.Runtime;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
@@ -23,6 +25,8 @@ public sealed class TranslationRuntime : MonoBehaviour
     private float nextPeriodicScan;
     private float delayedSceneScan = -1f;
     private int lastComponentCount = -1;
+    private bool inputScanPending;
+    private UnityAction<Scene, LoadSceneMode>? sceneLoadedHandler;
     private bool languageMenuOpen;
     private string[] languageFiles = Array.Empty<string>();
     private static readonly Dictionary<string, string> LanguageNames = new(StringComparer.OrdinalIgnoreCase)
@@ -77,7 +81,28 @@ public sealed class TranslationRuntime : MonoBehaviour
 
         manager.ReloadTranslations();
         currentScene = SafeSceneName();
+        sceneLoadedHandler = DelegateSupport.ConvertDelegate<UnityAction<Scene, LoadSceneMode>>(
+            new Action<Scene, LoadSceneMode>(OnSceneLoaded));
+        SceneManager.sceneLoaded += sceneLoadedHandler;
         Scan("startup");
+        delayedSceneScan = Time.realtimeSinceStartup + DelayedSceneScanSeconds;
+        nextPeriodicScan = Time.realtimeSinceStartup + Interval;
+    }
+
+    private void OnDestroy()
+    {
+        if (sceneLoadedHandler != null)
+        {
+            SceneManager.sceneLoaded -= sceneLoadedHandler;
+        }
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        var previousScene = currentScene;
+        currentScene = scene.name ?? "<unknown>";
+        logger.LogInfo($"Scene loaded: {previousScene} -> {currentScene}");
+        Scan("scene loaded");
         delayedSceneScan = Time.realtimeSinceStartup + DelayedSceneScanSeconds;
         nextPeriodicScan = Time.realtimeSinceStartup + Interval;
     }
@@ -112,6 +137,15 @@ public sealed class TranslationRuntime : MonoBehaviour
             return;
         }
 
+        var mouse = Mouse.current;
+        if (mouse != null
+            && (mouse.leftButton.wasPressedThisFrame
+                || mouse.rightButton.wasPressedThisFrame
+                || mouse.middleButton.wasPressedThisFrame))
+        {
+            inputScanPending = true;
+        }
+
         var scene = SafeSceneName();
         if (scene != currentScene)
         {
@@ -136,6 +170,26 @@ public sealed class TranslationRuntime : MonoBehaviour
         {
             nextPeriodicScan = now + Interval;
             Scan("periodic");
+        }
+    }
+
+    private void LateUpdate()
+    {
+        if (!settings.Enabled.Value)
+        {
+            return;
+        }
+
+        if (inputScanPending)
+        {
+            inputScanPending = false;
+            Scan("input");
+            nextPeriodicScan = Time.realtimeSinceStartup + Interval;
+        }
+
+        if (settings.ReplacementEnabled.Value)
+        {
+            scanner.TranslateKnown();
         }
     }
 
@@ -220,7 +274,7 @@ public sealed class TranslationRuntime : MonoBehaviour
         }
 
         var result = scanner.Scan(settings.DetectionEnabled.Value, settings.ReplacementEnabled.Value);
-        var routineScan = reason == "periodic";
+        var routineScan = reason is "periodic" or "input";
         if (!routineScan
             || result.ComponentCount != lastComponentCount
             || result.NewStrings > 0

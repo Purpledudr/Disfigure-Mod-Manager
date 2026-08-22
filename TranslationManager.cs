@@ -52,8 +52,8 @@ internal sealed class TranslationManager
             }
             else
             {
-                exact[pair.Key] = pair.Value;
-                translatedOutputs.Add(pair.Value);
+                exact[NormalizeLineEndings(pair.Key)] = pair.Value;
+                translatedOutputs.Add(NormalizeLineEndings(pair.Value));
             }
         }
 
@@ -135,7 +135,8 @@ internal sealed class TranslationManager
         var result = TranslateLines(
             "Damage <color=white>+25%</color>\n\nSpeed <color=white>+10%</color>\n",
             line => values.TryGetValue(line, out var value) ? value : null);
-        return result == "Daño <color=white>+25%</color>\n\nVelocidad <color=white>+10%</color>\n";
+        return result == "Daño <color=white>+25%</color>\n\nVelocidad <color=white>+10%</color>\n"
+            && NormalizeLineEndings("one\r\ntwo") == "one\ntwo";
     }
 
     internal bool Observe(string source)
@@ -189,18 +190,19 @@ internal sealed class TranslationManager
 
     private bool TryTranslateAtomic(string source, out string translated)
     {
-        if (exact.TryGetValue(source, out translated!))
+        var lookupSource = NormalizeLineEndings(source);
+        if (exact.TryGetValue(lookupSource, out translated!))
         {
             return true;
         }
 
-        if (sourcesByTranslatedOutput.TryGetValue(source, out var original)
+        if (sourcesByTranslatedOutput.TryGetValue(lookupSource, out var original)
             && exact.TryGetValue(original, out translated!))
         {
             return true;
         }
 
-        if (dynamicPatternsEnabled.Value && dynamic.TryTranslate(source, out translated))
+        if (dynamicPatternsEnabled.Value && dynamic.TryTranslate(lookupSource, out translated))
         {
             return true;
         }
@@ -211,10 +213,14 @@ internal sealed class TranslationManager
 
     private bool IsAtomicTranslatedOutput(string text)
     {
-        return translatedOutputs.Contains(text)
-            || sourcesByTranslatedOutput.ContainsKey(text)
-            || dynamicPatternsEnabled.Value && dynamic.IsTranslatedOutput(text);
+        var lookupText = NormalizeLineEndings(text);
+        return translatedOutputs.Contains(lookupText)
+            || sourcesByTranslatedOutput.ContainsKey(lookupText)
+            || dynamicPatternsEnabled.Value && dynamic.IsTranslatedOutput(lookupText);
     }
+
+    private static string NormalizeLineEndings(string text) =>
+        text.Contains('\r') ? text.Replace("\r\n", "\n").Replace('\r', '\n') : text;
 
     private static Dictionary<string, string> BuildOutputSources(IEnumerable<Dictionary<string, string>> catalogs)
     {
@@ -223,7 +229,7 @@ internal sealed class TranslationManager
         {
             foreach (var pair in translations)
             {
-                result.TryAdd(pair.Value, pair.Key);
+                result.TryAdd(NormalizeLineEndings(pair.Value), NormalizeLineEndings(pair.Key));
             }
         }
 

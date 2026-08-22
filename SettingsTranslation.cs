@@ -34,10 +34,12 @@ internal static class OtherSettingsTranslationPatch
     {
         var names = new[]
         {
-            "OnEnable", "SetFullscreen", "SetCameraMovement", "SetEXPIndicator",
+            "Awake", "OnEnable", "RefreshAllToggleChrome", "SetFullscreen",
+            "SetCameraMovement", "SetEXPIndicator", "SetFPSLimit", "SetResolution",
             "SetPlayerShadow", "SetEffects", "SetChromaticAberration", "SetScanlines",
             "SetFilmGrain", "SetFPS", "SetToggleVision", "SetToggleMutationIntro",
-            "SetDamageText", "SetDamageColors", "SetVsync"
+            "SetDamageText", "SetDamageColors", "SetVsync", "UpdateValueOnChange",
+            "UpdateValueOnChangeOpacity", "UpdateValueOnChangeScreenTexture"
         };
 
         foreach (var name in names)
@@ -62,5 +64,10 @@ internal static class OtherSettingsTranslationPatch
         PopupTranslation.Translate(__instance.aberrationText);
         PopupTranslation.Translate(__instance.scanlinesText);
         PopupTranslation.Translate(__instance.filmGrainText);
+        PopupTranslation.Translate(__instance.fpsLimitText);
+        PopupTranslation.Translate(__instance.resolutiontext);
+        PopupTranslation.Translate(__instance.screenShakeLabel);
+        PopupTranslation.Translate(__instance.opacityLabel);
+        PopupTranslation.Translate(__instance.screenTextureLabel);
     }
 }

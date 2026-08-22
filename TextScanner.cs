@@ -14,6 +14,8 @@ internal sealed class TextScanner
     private readonly FontSupport fontSupport;
     private readonly HashSet<string> loggedAssignmentFailures = new(StringComparer.Ordinal);
     private readonly HashSet<int> inspectedUpgradeObjects = new();
+    private readonly List<TMP_Text> knownTmp = new();
+    private readonly List<Text> knownLegacy = new();
 
     internal TextScanner(TranslationManager manager, ManualLogSource logger)
     {
@@ -28,6 +30,8 @@ internal sealed class TextScanner
         var componentCount = 0;
         var newStrings = 0;
         var replacements = 0;
+        knownTmp.Clear();
+        knownLegacy.Clear();
 
         try
         {
@@ -39,6 +43,7 @@ internal sealed class TextScanner
                 }
 
                 componentCount++;
+                knownTmp.Add(text);
                 ProcessTmp(text, detect, replace, ref newStrings, ref replacements);
             }
         }
@@ -57,6 +62,7 @@ internal sealed class TextScanner
                 }
 
                 componentCount++;
+                knownLegacy.Add(text);
                 ProcessLegacy(text, detect, replace, ref newStrings, ref replacements);
             }
         }
@@ -74,6 +80,27 @@ internal sealed class TextScanner
         manager.SaveDetected();
 
         return new ScanResult(componentCount, newStrings, replacements);
+    }
+
+    internal void TranslateKnown()
+    {
+        var ignoredNewStrings = 0;
+        var ignoredReplacements = 0;
+        foreach (var text in knownTmp)
+        {
+            if (IsUsable(text))
+            {
+                ProcessTmp(text, false, true, ref ignoredNewStrings, ref ignoredReplacements);
+            }
+        }
+
+        foreach (var text in knownLegacy)
+        {
+            if (IsUsable(text))
+            {
+                ProcessLegacy(text, false, true, ref ignoredNewStrings, ref ignoredReplacements);
+            }
+        }
     }
 
     private void ScanUpgradeMetadata()
