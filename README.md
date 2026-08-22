@@ -34,6 +34,13 @@ The manager reads [plugins.json](plugins.json), so new plugins and releases can 
 
 Supported languages are English, Español, Français, Русский, Deutsch, Português (Brasil), 简体中文, 日本語, and Polski. Translations are machine-assisted and may contain mistakes.
 
+## Sandbox mode Mod 
+while in a run press **F5** to open the sandbox menu. select any upgrades, perks, or mutations you want, no limit. 
+You can change the time to whatever you want, usually to be used for fighting bosses or testing a build in late game. 
+Spawn any enemy you want, if you do so at a very early time, like 1 minute, a late game miniboss will be extremely slow and is great for testing damage without worrying about dying.
+
+You will not be able to gain score while the mod is enabled, to play a run normally disable the mod in the mod manager.
+
 ## Repository layout
 
 - [`DisfigureModManager`](DisfigureModManager): Windows desktop manager source
