@@ -87,6 +87,64 @@ EXTRA_TERMS = {
     },
 }
 
+PROGRESSION_LABELS = {
+    "de": {"kills": "{weapon} ABSCHÜSSE {roman}", "mod": "{weapon} MOD {roman}", "kit": "{weapon}-SET", "win": "{weapon}-SIEG", "expert": "{weapon}-EXPERTE", "unlocked": "{weapon} FREIGESCHALTET", "Golden": "GOLD", "Ruby": "RUBIN", "Diamond": "DIAMANT"},
+    "es": {"kills": "BAJAS CON {weapon} {roman}", "mod": "MOD DE {weapon} {roman}", "kit": "KIT DE {weapon}", "win": "VICTORIA CON {weapon}", "expert": "EXPERTO EN {weapon}", "unlocked": "{weapon} DESBLOQUEADO", "Golden": "DORADO", "Ruby": "RUBÍ", "Diamond": "DIAMANTE"},
+    "fr": {"kills": "ÉLIMINATIONS {weapon} {roman}", "mod": "MOD {weapon} {roman}", "kit": "KIT {weapon}", "win": "VICTOIRE {weapon}", "expert": "EXPERT {weapon}", "unlocked": "{weapon} DÉBLOQUÉ", "Golden": "OR", "Ruby": "RUBIS", "Diamond": "DIAMANT"},
+    "ru": {"kills": "{weapon}: УБИЙСТВА {roman}", "mod": "МОД {weapon} {roman}", "kit": "КОМПЛЕКТ {weapon}", "win": "ПОБЕДА С {weapon}", "expert": "ЭКСПЕРТ {weapon}", "unlocked": "{weapon} РАЗБЛОКИРОВАНО", "Golden": "ЗОЛОТО", "Ruby": "РУБИН", "Diamond": "АЛМАЗ"},
+    "pt": {"kills": "ABATES COM {weapon} {roman}", "mod": "MOD DE {weapon} {roman}", "kit": "KIT DE {weapon}", "win": "VITÓRIA COM {weapon}", "expert": "ESPECIALISTA EM {weapon}", "unlocked": "{weapon} DESBLOQUEADO", "Golden": "DOURADO", "Ruby": "RUBI", "Diamond": "DIAMANTE"},
+    "zh": {"kills": "{weapon} 击杀 {roman}", "mod": "{weapon} 模组 {roman}", "kit": "{weapon} 套装", "win": "{weapon} 胜利", "expert": "{weapon} 专家", "unlocked": "{weapon} 已解锁", "Golden": "黄金", "Ruby": "红宝石", "Diamond": "钻石"},
+    "ja": {"kills": "{weapon} キル {roman}", "mod": "{weapon} MOD {roman}", "kit": "{weapon} キット", "win": "{weapon} 勝利", "expert": "{weapon} エキスパート", "unlocked": "{weapon} アンロック済み", "Golden": "ゴールド", "Ruby": "ルビー", "Diamond": "ダイヤモンド"},
+    "pl": {"kills": "ZABÓJSTWA {weapon} {roman}", "mod": "MOD {weapon} {roman}", "kit": "ZESTAW {weapon}", "win": "ZWYCIĘSTWO {weapon}", "expert": "EKSPERT {weapon}", "unlocked": "{weapon} ODBLOKOWANO", "Golden": "ZŁOTY", "Ruby": "RUBINOWY", "Diamond": "DIAMENTOWY"},
+}
+WEAPON_NAMES = (
+    "AKIMBO SMGS", "BATTLE AXE", "BOOMERANG SCYTHE", "BURST RIFLE", "FLAMETHROWER",
+    "GAUSS KATANA", "GREATSWORD", "GRENADE LAUNCHER", "HANDCANNON", "KNIFE",
+    "LASER CATALYST", "LEVER-ACTION RIFLE", "MINIGUN", "PISTOL", "PULSE RIFLE",
+    "RAILGUN", "SAW LAUNCHER", "SHOTGUN", "SNIPER", "TWIN KATANAS",
+)
+WEAPON_NAME_OVERRIDES = {
+    "es": {"AKIMBO SMGS": "SUBFUSILES DOBLES", "FLAMETHROWER": "LANZALLAMAS"},
+    "ru": {"FLAMETHROWER": "ОГНЕМЁТ"},
+    "pt": {"AKIMBO SMGS": "SUBMETRALHADORAS DUPLAS", "FLAMETHROWER": "LANÇA-CHAMAS"},
+    "zh": {"AKIMBO SMGS": "双持冲锋枪", "FLAMETHROWER": "火焰喷射器"},
+    "ja": {"AKIMBO SMGS": "二丁持ちSMG", "FLAMETHROWER": "火炎放射器"},
+    "pl": {"AKIMBO SMGS": "PODWÓJNE PISTOLETY MASZYNOWE", "FLAMETHROWER": "MIOTACZ OGNIA"},
+}
+IDENTITY_TEXT = {
+    "Aliaskey Vasilieu", "ArisTheMage", "Arlensoul", "Arvid Eapen", "Be Happy™",
+    "Bera Gedikli", "Biggest Boss (knockout)", "Billbro Baggins", "Bull", "cheese",
+    "Cipher", "Darkhellthepro", "DevilAnjel", "Ezgi Akhan", "Ho Kim Quang", "Isorn!",
+    "jw", "Kevin Kindheart", "kira anão", "Mechanism Y", "Schtroumph perdant", "senpai",
+    "Shaunak Sawant", "sweaty sleeves bro", "that guy", "The Ghost", "The Mauler",
+    "The Variable Man", "THEANATOLIEN", "Vikram Ramesh", "Zoe “Squinch” Allen",
+    "☢ Kotzkreis der Duftige",
+}
+
+
+def repair_progression_labels(catalog: dict[str, str], language: str) -> None:
+    labels = PROGRESSION_LABELS.get(language)
+    if not labels:
+        return
+    names = WEAPON_NAME_OVERRIDES.get(language, {})
+    for source_weapon in WEAPON_NAMES:
+        weapon = names.get(source_weapon, catalog.get(source_weapon, source_weapon)).upper()
+        if source_weapon in names:
+            catalog[source_weapon] = weapon
+        for roman in ("I", "II", "III"):
+            for suffix in ("kills", "mod"):
+                key = f"{source_weapon} {suffix.upper()} {roman}"
+                if key in catalog:
+                    catalog[key] = labels[suffix].format(weapon=weapon, roman=roman)
+        for suffix in ("kit", "win", "expert", "unlocked"):
+            key = f"{source_weapon} {suffix.upper()}"
+            if key in catalog:
+                catalog[key] = labels[suffix].format(weapon=weapon)
+        for tier in ("Golden", "Ruby", "Diamond"):
+            key = f"{tier.upper()} {source_weapon}"
+            if key in catalog:
+                catalog[key] = f"{labels[tier]} {weapon}"
+
 
 def read_json(path: Path) -> dict[str, str]:
     return json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
@@ -349,6 +407,10 @@ def main() -> None:
             for source, translated in read_json(args.directory / "ru_overrides.json").items():
                 if source in catalog:
                     catalog[source] = translated
+        repair_progression_labels(catalog, language)
+        for source in IDENTITY_TEXT:
+            if source in catalog:
+                catalog[source] = source
         write_json(path, catalog)
         audit(sources, catalog, language)
 
