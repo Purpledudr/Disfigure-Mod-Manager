@@ -15,7 +15,7 @@ dotnet run --project .\DisfigureModManager\DisfigureModManager.csproj
 The first time it opens, confirm the detected Disfigure folder (or use **Browse**). The public catalog is already configured as:
 
 ```text
-https://raw.githubusercontent.com/Purpledudr/DisfigureTranslationMod/main/plugins.json
+https://raw.githubusercontent.com/Purpledudr/DisfigureModManager/main/plugins.json
 ```
 
 The app remembers both values in `%LOCALAPPDATA%\DisfigureModManager\settings.json`.
@@ -56,3 +56,4 @@ Versions are compared numerically. The installed version is read from the DLL's 
 ```powershell
 dotnet run --project .\DisfigureModManager\DisfigureModManager.csproj -- --self-test
 ```
+
