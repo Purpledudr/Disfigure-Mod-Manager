@@ -4,6 +4,8 @@ Language:
 
 File type: Current / Blank
 
+Area: Game / Documentation / Mod Manager / Sandbox Mod
+
 Sections completed:
 
 - [ ] I used the file named with the full language name.
