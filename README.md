@@ -34,6 +34,10 @@ The manager reads [plugins.json](plugins.json), so new plugins and releases can 
 
 Supported languages are English, Español, Français, Русский, Deutsch, Português (Brasil), 简体中文, 日本語, and Polski. Translations are machine-assisted and may contain mistakes.
 
+## Help translate
+
+Blank community worksheets are available in [community-translations](community-translations). Anyone can fork the repository, edit a language file in GitHub, and submit a pull request for review. See [Contributing translations](CONTRIBUTING_TRANSLATIONS.md) for instructions.
+
 ## Sandbox mode Mod 
 while in a run press **F5** to open the sandbox menu. select any upgrades, perks, or mutations you want, no limit. 
 You can change the time to whatever you want, usually to be used for fighting bosses or testing a build in late game. 

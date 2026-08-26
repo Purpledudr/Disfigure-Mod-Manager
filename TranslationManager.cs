@@ -40,9 +40,8 @@ internal sealed class TranslationManager
 
         foreach (var pair in loaded)
         {
-            if (pair.Value is null)
+            if (string.IsNullOrWhiteSpace(pair.Value))
             {
-                logger.LogWarning($"Ignoring translation '{pair.Key}' because its value is null.");
                 continue;
             }
 
@@ -136,7 +135,9 @@ internal sealed class TranslationManager
             "Damage <color=white>+25%</color>\n\nSpeed <color=white>+10%</color>\n",
             line => values.TryGetValue(line, out var value) ? value : null);
         return result == "Daño <color=white>+25%</color>\n\nVelocidad <color=white>+10%</color>\n"
-            && NormalizeLineEndings("one\r\ntwo") == "one\ntwo";
+            && NormalizeLineEndings("one\r\ntwo") == "one\ntwo"
+            && FontSupport.RemoveRichTextTags("Every <color=white>3rd</color>") == "Every 3rd"
+            && FontSupport.RemoveRichTextTags("Toggle <b>[Q]</b>") == "Toggle [Q]";
     }
 
     internal bool Observe(string source)
@@ -191,19 +192,27 @@ internal sealed class TranslationManager
     private bool TryTranslateAtomic(string source, out string translated)
     {
         var lookupSource = NormalizeLineEndings(source);
-        if (exact.TryGetValue(lookupSource, out translated!))
+        if (TryTranslateLookup(lookupSource, out translated))
         {
             return true;
         }
 
-        if (sourcesByTranslatedOutput.TryGetValue(lookupSource, out var original)
-            && exact.TryGetValue(original, out translated!))
+        var prefix = string.Empty;
+        if (lookupSource.StartsWith("> ", StringComparison.Ordinal))
         {
-            return true;
+            prefix = "> ";
+            lookupSource = lookupSource[2..];
+            if (TryTranslateLookup(lookupSource, out translated))
+            {
+                translated = prefix + translated;
+                return true;
+            }
         }
 
-        if (dynamicPatternsEnabled.Value && dynamic.TryTranslate(lookupSource, out translated))
+        var withoutTags = FontSupport.RemoveRichTextTags(lookupSource);
+        if (withoutTags != lookupSource && TryTranslateLookup(withoutTags, out translated))
         {
+            translated = prefix + translated;
             return true;
         }
 
@@ -214,10 +223,50 @@ internal sealed class TranslationManager
     private bool IsAtomicTranslatedOutput(string text)
     {
         var lookupText = NormalizeLineEndings(text);
-        return translatedOutputs.Contains(lookupText)
-            || sourcesByTranslatedOutput.ContainsKey(lookupText)
-            || dynamicPatternsEnabled.Value && dynamic.IsTranslatedOutput(lookupText);
+        if (IsTranslatedLookup(lookupText))
+        {
+            return true;
+        }
+
+        if (lookupText.StartsWith("> ", StringComparison.Ordinal))
+        {
+            lookupText = lookupText[2..];
+            if (IsTranslatedLookup(lookupText))
+            {
+                return true;
+            }
+        }
+
+        var withoutTags = FontSupport.RemoveRichTextTags(lookupText);
+        return withoutTags != lookupText && IsTranslatedLookup(withoutTags);
     }
+
+    private bool TryTranslateLookup(string source, out string translated)
+    {
+        if (exact.TryGetValue(source, out translated!))
+        {
+            return true;
+        }
+
+        if (sourcesByTranslatedOutput.TryGetValue(source, out var original)
+            && exact.TryGetValue(original, out translated!))
+        {
+            return true;
+        }
+
+        if (dynamicPatternsEnabled.Value && dynamic.TryTranslate(source, out translated))
+        {
+            return true;
+        }
+
+        translated = source;
+        return false;
+    }
+
+    private bool IsTranslatedLookup(string text) =>
+        translatedOutputs.Contains(text)
+            || sourcesByTranslatedOutput.ContainsKey(text)
+            || dynamicPatternsEnabled.Value && dynamic.IsTranslatedOutput(text);
 
     private static string NormalizeLineEndings(string text) =>
         text.Contains('\r') ? text.Replace("\r\n", "\n").Replace('\r', '\n') : text;
@@ -229,6 +278,11 @@ internal sealed class TranslationManager
         {
             foreach (var pair in translations)
             {
+                if (string.IsNullOrWhiteSpace(pair.Value))
+                {
+                    continue;
+                }
+
                 result.TryAdd(NormalizeLineEndings(pair.Value), NormalizeLineEndings(pair.Key));
             }
         }
