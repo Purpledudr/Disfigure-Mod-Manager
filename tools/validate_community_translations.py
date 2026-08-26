@@ -8,6 +8,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 TEMPLATE = ROOT / "translations" / "community_translation_template.json"
 COMMUNITY = ROOT / "community-translations"
+BLANK = COMMUNITY / "Blank-Translations"
+CURRENT = COMMUNITY / "Current-Translations"
 NUMBER_ONLY = re.compile(r"^[+-]?\d+(?:\.\d+)?(?:%|x|s)?$")
 
 
@@ -24,7 +26,12 @@ def main():
     expected_keys = list(template)
     failures = []
 
-    for path in sorted(COMMUNITY.glob("*.json")):
+    blank_paths = sorted(BLANK.glob("*.json"))
+    current_paths = sorted(CURRENT.glob("*.json"))
+    if {path.name for path in blank_paths} != {path.name for path in current_paths}:
+        failures.append("current and blank folders must contain the same full language filenames")
+
+    for path in blank_paths:
         try:
             catalog = load(path)
             if list(catalog) != expected_keys:
@@ -41,9 +48,17 @@ def main():
         except (OSError, ValueError, json.JSONDecodeError) as error:
             failures.append(f"{path.name}: {error}")
 
+    for path in current_paths:
+        try:
+            catalog = load(path)
+            if any(not isinstance(value, str) for value in catalog.values()):
+                failures.append(f"{path.name}: every current translation value must be a string")
+        except (OSError, ValueError, json.JSONDecodeError) as error:
+            failures.append(f"{path.name}: {error}")
+
     if failures:
         raise SystemExit("\n".join(failures))
-    print(f"Validated {len(list(COMMUNITY.glob('*.json')))} community translation files.")
+    print(f"Validated {len(blank_paths)} blank and {len(current_paths)} current translation files.")
 
 
 if __name__ == "__main__":

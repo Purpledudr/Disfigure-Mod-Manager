@@ -36,7 +36,7 @@ Supported languages are English, Español, Français, Русский, Deutsch, P
 
 ## Help translate
 
-Blank community worksheets are available in [community-translations](community-translations). Anyone can fork the repository, edit a language file in GitHub, and submit a pull request for review. See [Contributing translations](CONTRIBUTING_TRANSLATIONS.md) for instructions.
+Current translations and blank community worksheets are available in [community-translations](community-translations), organized by full language name. Anyone can fork the repository, edit a language file in GitHub, and submit a pull request for review. See [Contributing translations](CONTRIBUTING_TRANSLATIONS.md) for instructions.
 
 ## Sandbox mode Mod 
 while in a run press **F5** to open the sandbox menu. select any upgrades, perks, or mutations you want, no limit. 
