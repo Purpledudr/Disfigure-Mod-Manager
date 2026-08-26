@@ -1,14 +1,19 @@
 # Community translation files
 
-Choose one file and fill in its blank values:
+Each language has two files:
 
-- [Español](Spanish-es.json)
-- [Français](French-fr.json)
-- [Русский](Russian-ru.json)
-- [Deutsch](German-de.json)
-- [Português (Brasil)](Brazilian-Portuguese-pt-BR.json)
-- [简体中文](Simplified-Chinese-zh-CN.json)
-- [日本語](Japanese-ja.json)
-- [Polski](Polish-pl.json)
+- [Current Translations](Current-Translations) contains the translations currently used by the mod. Edit these to correct or improve existing wording.
+- [Blank Translations](Blank-Translations) contains clean, ordered worksheets with empty translation values. Use these to start a translation from scratch.
 
-Read [Contributing translations](../CONTRIBUTING_TRANSLATIONS.md) before editing. These are translator worksheets, not files to install directly into the game.
+Available languages:
+
+- Español — `Spanish.json`
+- Français — `French.json`
+- Русский — `Russian.json`
+- Deutsch — `German.json`
+- Português (Brasil) — `Brazilian-Portuguese.json`
+- 简体中文 — `Simplified-Chinese.json`
+- 日本語 — `Japanese.json`
+- Polski — `Polish.json`
+
+Read [Contributing translations](../CONTRIBUTING_TRANSLATIONS.md) before editing. Files in this folder are for translation work and review; install the released mod rather than copying them directly into the game.
