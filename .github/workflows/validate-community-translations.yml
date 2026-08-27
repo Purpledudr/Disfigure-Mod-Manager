@@ -5,6 +5,9 @@ on:
     paths:
       - "community-translations/**"
       - "translations/community_translation_template.json"
+      - "translations/community_documentation_template.json"
+      - "translations/community_mod_manager_template.json"
+      - "translations/community_sandbox_mod_template.json"
       - "tools/validate_community_translations.py"
 
 permissions:
