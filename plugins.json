@@ -31,6 +31,16 @@
       "dllFilename": "SandboxMode.dll",
       "packageType": "dll",
       "available": true
+    },
+    {
+      "id": "optimization-mod",
+      "name": "Disfigure Optimization Mod",
+      "description": "Disables expensive rendering features for around 20–35% more FPS without changing gameplay or noticeably changing the visuals.",
+      "version": "0.3.4",
+      "downloadUrl": "https://github.com/Purpledudr/Disfigure-Mod-Manager/releases/download/optimization-v0.3.4/DisfigureOptimizationMod.dll",
+      "dllFilename": "DisfigureOptimizationMod.dll",
+      "packageType": "dll",
+      "available": true
     }
   ]
 }

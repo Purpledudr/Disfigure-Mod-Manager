@@ -16,6 +16,7 @@ The manager prevents plugin changes while Disfigure is running. If the game is o
 
 - **Disfigure Translation Mod 0.7.9:** Adds nine community language translations and supports Disfigure 1.0.
 - **Sandbox Mode 0.3.70:** Opens an in-run panel for upgrades, timer controls, and enemy spawning.
+- **Disfigure Optimization Mod 0.3.4:** Disables expensive post-processing, shadows, motion vectors, and projectile trails for roughly 20–35% more FPS without changing gameplay or noticeably changing the visuals.
 
 The manager reads [plugins.json](plugins.json), so new plugins and releases can be added without publishing a new manager build.
 
@@ -49,6 +50,7 @@ You will not be able to gain score while the mod is enabled, to play a run norma
 
 - [`DisfigureModManager`](DisfigureModManager): Windows desktop manager source
 - [`SandboxMode`](SandboxMode): Sandbox Mode plugin source
+- [`DisfigureOptimizationMod`](DisfigureOptimizationMod): Optimization plugin source
 - Repository root: Translation Mod source and technical documentation
 - [`plugins.json`](plugins.json): Public application and plugin catalog
 
