@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
-    <Version>0.3.70</Version>
+    <Version>0.3.74</Version>
     <NuGetAudit>false</NuGetAudit>
     <DisfigureDir Condition="'$(DisfigureDir)' == ''">D:\SteamLibrary\steamapps\common\Disfigure</DisfigureDir>
     <BepInExDir>$(DisfigureDir)\BepInEx</BepInExDir>
@@ -27,4 +27,3 @@
     <Reference Include="UnityEngine.UI" HintPath="$(BepInExDir)\interop\UnityEngine.UI.dll" Private="false" />
   </ItemGroup>
 </Project>
-

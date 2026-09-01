@@ -15,7 +15,7 @@ The manager prevents plugin changes while Disfigure is running. If the game is o
 ## Available plugins
 
 - **Disfigure Translation Mod 0.7.9:** Adds nine community language translations and supports Disfigure 1.0.
-- **Sandbox Mode 0.3.70:** Opens an in-run panel for upgrades, timer controls, and enemy spawning.
+- **Sandbox Mode 0.3.74:** Opens an in-run panel for upgrades, mutation stacks, timer controls, and enemy spawning.
 - **Disfigure Optimization Mod 0.3.4:** Disables expensive post-processing, shadows, motion vectors, and projectile trails for roughly 20–35% more FPS without changing gameplay or noticeably changing the visuals.
 
 The manager reads [plugins.json](plugins.json), so new plugins and releases can be added without publishing a new manager build.

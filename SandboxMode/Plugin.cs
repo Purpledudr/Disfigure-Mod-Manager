@@ -17,12 +17,13 @@ using Object = UnityEngine.Object;
 
 namespace SandboxMode;
 
-[BepInPlugin("casto.disfigure.sandbox-mode", "Disfigure Sandbox Mode", "0.3.70")]
+[BepInPlugin("casto.disfigure.sandbox-mode", "Disfigure Sandbox Mode", "0.3.74")]
 public sealed class Plugin : BasePlugin
 {
     public override void Load()
     {
-        if (SandboxOverlay.FormatTime(125f) != "2:05" || SandboxOverlay.LeadingNumber("9. TEST") != 9
+        if (SandboxOverlay.FormatTime(125f) != "2:05" || SandboxOverlay.FormatTime(3723f) != "1:02:03"
+            || SandboxOverlay.LeadingNumber("9. TEST") != 9
             || SandboxOverlay.LeadingNumber("TEST") != int.MaxValue
             || SandboxOverlay.DisplayWeaponName("katanas", new List<string>()) != "TWIN KATANAS"
             || SandboxOverlay.DisplayWeaponName("repeater", new List<string>()) != "LEVER-ACTION RIFLE"
@@ -56,7 +57,9 @@ public sealed class Plugin : BasePlugin
             || SandboxOverlay.EnemyCatalogNumber("Enemy: map3enemy2") != 2
             || Math.Abs(SandboxOverlay.EnemyPreviewScale(120f, 80f, 240f, 40f) - 0.5f) > 0.0001f
             || SandboxOverlay.SafeFileName("1. A:B") != "1. A_B"
-            || !SandboxOverlay.NeedsLevelActivationNote("39. OVERARMED"))
+            || !SandboxOverlay.NeedsLevelActivationNote("39. OVERARMED")
+            || !SandboxOverlay.SupportsMutationProcStacks("4. ROBUST")
+            || SandboxOverlay.SupportsMutationProcStacks("5. TANK"))
             throw new InvalidOperationException("Sandbox self-check failed.");
         SandboxOverlay.Logger = Log;
         new Harmony("casto.disfigure.sandbox-mode").PatchAll();
@@ -71,6 +74,7 @@ public sealed class SandboxOverlay : MonoBehaviour
 
     internal static ManualLogSource? Logger { get; set; }
     internal const float EnemySpawnIntervalSeconds = 0.25f;
+    internal const float MaxSandboxTimeSeconds = 24f * 60f * 60f;
     private static SandboxOverlay? Instance { get; set; }
 
     private readonly List<Entry> upgrades = new();
@@ -90,6 +94,7 @@ public sealed class SandboxOverlay : MonoBehaviour
     private readonly Dictionary<string, float> redlineBulletDamageChanges = new(StringComparer.OrdinalIgnoreCase);
     private readonly Dictionary<string, float> redlineFireRateChanges = new(StringComparer.OrdinalIgnoreCase);
     private readonly Dictionary<string, float> redlineExpGainChanges = new(StringComparer.OrdinalIgnoreCase);
+    private readonly Dictionary<string, List<float[]>> mutationProcStacks = new(StringComparer.OrdinalIgnoreCase);
     private bool sandboxRedlineSelected;
     private bool redlineSupplementApplied;
     private float redlineBulletDamageSupplement;
@@ -468,11 +473,126 @@ public sealed class SandboxOverlay : MonoBehaviour
             if (rowArea.Contains(Event.current.mousePosition)) hovered = mutations[i];
             DrawEntryIcon(new Rect(rowArea.x, rowArea.y, 34f, 34f), mutations[i]);
             var selected = IsSelected(stats, mutations[i]);
-            var next = GUI.Toggle(new Rect(rowArea.x + 40f, rowArea.y + 3f, rowArea.width - 40f, 29f), selected, mutations[i].Name);
+            var stackable = SupportsMutationProcStacks(mutations[i].Name);
+            var controlsWidth = stackable ? 104f : 0f;
+            var next = GUI.Toggle(new Rect(rowArea.x + 40f, rowArea.y + 3f,
+                rowArea.width - 40f - controlsWidth, 29f), selected, mutations[i].Name);
             if (next != selected) SetUpgrade(stats, mutations[i], next);
+            if (!stackable) continue;
+
+            var controlsX = rowArea.xMax - controlsWidth;
+            var wasEnabled = GUI.enabled;
+            GUI.enabled = selected;
+            if (GUI.Button(new Rect(controlsX, rowArea.y + 4f, 28f, 26f), "-") && selected)
+                RemoveMutationProcStack(stats, mutations[i]);
+            GUI.Label(new Rect(controlsX + 31f, rowArea.y + 5f, 40f, 24f),
+                $"x{MutationProcStackCount(mutations[i])}");
+            if (GUI.Button(new Rect(controlsX + 74f, rowArea.y + 4f, 28f, 26f), "+") && selected)
+                AddMutationProcStack(stats, mutations[i]);
+            GUI.enabled = wasEnabled;
         }
         DrawPageButtons(x, y + height - 28f, width, pageCount);
         return hovered;
+    }
+
+    internal static bool SupportsMutationProcStacks(string name) =>
+        EntryNameMatches(name, "4. ROBUST", "ROBUST")
+        || EntryNameMatches(name, "9. REFINE", "REFINE")
+        || EntryNameMatches(name, "31. PACT", "PACT")
+        || EntryNameMatches(name, "32. FORGE", "FORGE");
+
+    [HideFromIl2Cpp]
+    private int MutationProcStackCount(Entry entry) =>
+        mutationProcStacks.TryGetValue(entry.Key, out var stacks) ? stacks.Count : 0;
+
+    [HideFromIl2Cpp]
+    private void AddMutationProcStack(PlayerStats stats, Entry entry)
+    {
+        try
+        {
+            var before = CaptureMutationProcStats(stats, GameManager.instance);
+            if (EntryNameMatches(entry.Name, "4. ROBUST", "ROBUST"))
+            {
+                stats.bulletDamageBuff += 0.1f;
+            }
+            else if (EntryNameMatches(entry.Name, "9. REFINE", "REFINE"))
+            {
+                stats.fireRateBuff += 0.03f;
+            }
+            else if (EntryNameMatches(entry.Name, "31. PACT", "PACT"))
+            {
+                stats.TryProcPact();
+                if (Math.Abs(stats.pactEnemyDamageMultiplier - before[12]) < 0.0001f)
+                    stats.pactEnemyDamageMultiplier += stats.pactStackIncrement > 0f ? stats.pactStackIncrement : 0.1f;
+            }
+            else if (EntryNameMatches(entry.Name, "32. FORGE", "FORGE"))
+            {
+                stats.NotifyForgeHeartGained(1);
+                if (Math.Abs(stats.bulletDamageBuff - before[0]) < 0.0001f
+                    && Math.Abs(stats.fireRateBuff - before[1]) < 0.0001f)
+                {
+                    stats.bulletDamageBuff += 0.15f;
+                    stats.fireRateBuff += 0.15f;
+                }
+            }
+            else return;
+
+            var delta = StatDifferences(CaptureMutationProcStats(stats, GameManager.instance), before);
+            if (!mutationProcStacks.TryGetValue(entry.Key, out var stacks))
+            {
+                stacks = new List<float[]>();
+                mutationProcStacks[entry.Key] = stacks;
+            }
+            stacks.Add(delta);
+            message = $"Added {entry.Name} stack (x{stacks.Count}).";
+            Logger?.LogInfo($"{message} damage={delta[0]:+0.###;-0.###;0}, fireRate={delta[1]:+0.###;-0.###;0}, "
+                + $"robust={delta[10]:+0.###;-0.###;0}, refine={delta[11]:+0.###;-0.###;0}, pact={delta[12]:+0.###;-0.###;0}.");
+        }
+        catch (Exception exception)
+        {
+            message = $"Could not add a {entry.Name} stack; see LogOutput.log.";
+            Logger?.LogError($"Sandbox mutation stack failed for {entry.Name}: {exception}");
+        }
+    }
+
+    [HideFromIl2Cpp]
+    private void RemoveMutationProcStack(PlayerStats stats, Entry entry)
+    {
+        if (!mutationProcStacks.TryGetValue(entry.Key, out var stacks) || stacks.Count == 0) return;
+        var last = stacks[^1];
+        stacks.RemoveAt(stacks.Count - 1);
+        RestoreMutationProcStats(stats, GameManager.instance,
+            CaptureMutationProcStats(stats, GameManager.instance), last);
+        if (stacks.Count == 0) mutationProcStacks.Remove(entry.Key);
+        message = $"Removed {entry.Name} stack (x{stacks.Count}).";
+        Logger?.LogInfo(message);
+    }
+
+    [HideFromIl2Cpp]
+    private void RemoveAllMutationProcStacks(PlayerStats stats, Entry entry)
+    {
+        while (MutationProcStackCount(entry) > 0) RemoveMutationProcStack(stats, entry);
+    }
+
+    [HideFromIl2Cpp]
+    private static float[] CaptureMutationProcStats(PlayerStats stats, GameManager? game)
+    {
+        var values = new float[13];
+        var ordinary = CaptureMutationStats(stats, game);
+        Array.Copy(ordinary, values, ordinary.Length);
+        values[10] = stats.robustBuff;
+        values[11] = stats.refineBuff;
+        values[12] = stats.pactEnemyDamageMultiplier;
+        return values;
+    }
+
+    [HideFromIl2Cpp]
+    private static void RestoreMutationProcStats(PlayerStats stats, GameManager? game, float[] current, float[] applied)
+    {
+        RestoreMutationStats(stats, game, current, applied);
+        stats.robustBuff = WithoutAppliedChange(current[10], applied[10]);
+        stats.refineBuff = WithoutAppliedChange(current[11], applied[11]);
+        stats.pactEnemyDamageMultiplier = WithoutAppliedChange(current[12], applied[12]);
     }
 
     [HideFromIl2Cpp]
@@ -560,6 +680,7 @@ public sealed class SandboxOverlay : MonoBehaviour
         {
             MaintainGameTestMode();
             entry.Upgrade.pS = stats;
+            if (!selected && entry.Mutation != null) RemoveAllMutationProcStacks(stats, entry);
             var beforeStatsMax = stats.maxHealth;
             var beforeIconMax = stats.healthicons?.maxHealth ?? beforeStatsMax;
             var beforeCurrentHealth = stats.healthicons?.currentHealth ?? 0;
@@ -892,7 +1013,7 @@ public sealed class SandboxOverlay : MonoBehaviour
     {
         GUI.Label(new Rect(x, y, width, 24f), $"Run time: {FormatTime(game.timePassed)} ({game.timePassed:0}s)");
         y += 30f;
-        var changed = GUI.HorizontalSlider(new Rect(x, y, width, 22f), game.timePassed, 0f, 3600f);
+        var changed = GUI.HorizontalSlider(new Rect(x, y, width, 22f), game.timePassed, 0f, MaxSandboxTimeSeconds);
         if (Math.Abs(changed - game.timePassed) >= 1f) SetTime(game, (float)Math.Round(changed));
         y += 32f;
         var buttonWidth = (width - 12f) / 4f;
@@ -901,17 +1022,23 @@ public sealed class SandboxOverlay : MonoBehaviour
         if (GUI.Button(new Rect(x + (buttonWidth + 4f) * 2f, y, buttonWidth, 28f), "+10s")) SetTime(game, game.timePassed + 10f);
         if (GUI.Button(new Rect(x + (buttonWidth + 4f) * 3f, y, buttonWidth, 28f), "+60s")) SetTime(game, game.timePassed + 60f);
         y += 36f;
-        var times = new[] { 0, 5, 10, 15, 20, 30 };
-        buttonWidth = (width - 20f) / times.Length;
+        if (GUI.Button(new Rect(x, y, buttonWidth, 28f), "-1 hour")) SetTime(game, game.timePassed - 3600f);
+        if (GUI.Button(new Rect(x + buttonWidth + 4f, y, buttonWidth, 28f), "-10 min")) SetTime(game, game.timePassed - 600f);
+        if (GUI.Button(new Rect(x + (buttonWidth + 4f) * 2f, y, buttonWidth, 28f), "+10 min")) SetTime(game, game.timePassed + 600f);
+        if (GUI.Button(new Rect(x + (buttonWidth + 4f) * 3f, y, buttonWidth, 28f), "+1 hour")) SetTime(game, game.timePassed + 3600f);
+        y += 36f;
+        var times = new[] { 0, 30, 60, 120, 360, 720, 1440 };
+        var labels = new[] { "0m", "30m", "1h", "2h", "6h", "12h", "24h" };
+        buttonWidth = (width - (times.Length - 1) * 4f) / times.Length;
         for (var i = 0; i < times.Length; i++)
-            if (GUI.Button(new Rect(x + i * (buttonWidth + 4f), y, buttonWidth, 28f), $"{times[i]}:00")) SetTime(game, times[i] * 60f);
+            if (GUI.Button(new Rect(x + i * (buttonWidth + 4f), y, buttonWidth, 28f), labels[i])) SetTime(game, times[i] * 60f);
         y += 40f;
-        GUI.Label(new Rect(x, y, width, 48f), "Time jumps use GameManager.timePassed, so the game will process its normal scheduled events after the sandbox closes.");
+        GUI.Label(new Rect(x, y, width, 48f), "Time can be set as high as 24 hours. The game processes its normal scheduled events after the sandbox closes.");
     }
 
     private void SetTime(GameManager game, float seconds)
     {
-        game.timePassed = Math.Clamp(seconds, 0f, 3600f);
+        game.timePassed = Math.Clamp(seconds, 0f, MaxSandboxTimeSeconds);
         message = $"Run time set to {FormatTime(game.timePassed)}.";
     }
 
@@ -1079,6 +1206,7 @@ public sealed class SandboxOverlay : MonoBehaviour
             redlineBulletDamageChanges.Clear();
             redlineFireRateChanges.Clear();
             redlineExpGainChanges.Clear();
+            mutationProcStacks.Clear();
             sandboxRedlineSelected = false;
             redlineSupplementApplied = false;
             redlineBulletDamageSupplement = 0f;
@@ -1468,7 +1596,7 @@ public sealed class SandboxOverlay : MonoBehaviour
                 RenderTexture.active = temporary;
                 copy.ReadPixels(new Rect(0f, 0f, width, height), 0, 0, false);
             }
-            copy.Apply(false, true);
+            copy.Apply(false, false);
             copy.filterMode = source.filterMode;
             copy.hideFlags = HideFlags.HideAndDontSave;
             return copy;
@@ -2037,7 +2165,7 @@ public sealed class SandboxOverlay : MonoBehaviour
         foreach (var pixel in pixels) if (pixel.r < 190) visiblePixels++;
         var thumbnail = new Texture2D(width, height, TextureFormat.RGBA32, false);
         thumbnail.SetPixels32(new Il2CppStructArray<Color32>(pixels));
-        thumbnail.Apply(false, true);
+        thumbnail.Apply(false, false);
         return thumbnail;
     }
 
@@ -2231,6 +2359,7 @@ public sealed class SandboxOverlay : MonoBehaviour
     internal static string FormatTime(float seconds)
     {
         var whole = Math.Max(0, (int)seconds);
+        if (whole >= 3600) return $"{whole / 3600}:{whole / 60 % 60:00}:{whole % 60:00}";
         return $"{whole / 60}:{whole % 60:00}";
     }
 
@@ -2378,4 +2507,3 @@ internal static class MutationSelectedPatch
 {
     private static void Postfix(mutationUpgrade __instance) => SandboxOverlay.RecordMutationSelected(__instance);
 }
-

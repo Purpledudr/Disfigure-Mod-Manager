@@ -26,8 +26,8 @@
       "id": "sandbox-mode",
       "name": "Sandbox Mode",
       "description": "Open an in-run panel to manage upgrades, set the timer, and spawn enemies.",
-      "version": "0.3.70",
-      "downloadUrl": "https://github.com/Purpledudr/Disfigure-Mod-Manager/releases/download/sandbox-v0.3.70/SandboxMode.dll",
+      "version": "0.3.74",
+      "downloadUrl": "https://github.com/Purpledudr/Disfigure-Mod-Manager/releases/download/sandbox-v0.3.74/SandboxMode.dll",
       "dllFilename": "SandboxMode.dll",
       "packageType": "dll",
       "available": true
