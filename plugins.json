@@ -41,6 +41,16 @@
       "dllFilename": "DisfigureOptimizationMod.dll",
       "packageType": "dll",
       "available": true
+    },
+    {
+      "id": "run-checkpoint",
+      "name": "Run Save & Quit (PLAYTEST)",
+      "description": "Save and resume an in-progress run.",
+      "version": "0.8.10",
+      "downloadUrl": "https://github.com/Purpledudr/Disfigure-Mod-Manager/releases/download/run-checkpoint-v0.8.10/RunCheckpoint.dll",
+      "dllFilename": "RunCheckpoint.dll",
+      "packageType": "dll",
+      "available": true
     }
   ]
 }
