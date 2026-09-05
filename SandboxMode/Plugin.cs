@@ -17,7 +17,7 @@ using Object = UnityEngine.Object;
 
 namespace SandboxMode;
 
-[BepInPlugin("casto.disfigure.sandbox-mode", "Disfigure Sandbox Mode", "0.3.74")]
+[BepInPlugin("casto.disfigure.sandbox-mode", "Disfigure Sandbox Mode", "0.3.75")]
 public sealed class Plugin : BasePlugin
 {
     public override void Load()
@@ -62,9 +62,23 @@ public sealed class Plugin : BasePlugin
             || SandboxOverlay.SupportsMutationProcStacks("5. TANK"))
             throw new InvalidOperationException("Sandbox self-check failed.");
         SandboxOverlay.Logger = Log;
+        try
+        {
+            DamageCap.Initialize();
+            Log.LogInfo("Damage cap self-check passed: capped, uncapped, restored; multipliers preserved.");
+        }
+        catch (Exception exception) { Log.LogError($"Damage cap checkbox unavailable: {exception}"); }
         new Harmony("casto.disfigure.sandbox-mode").PatchAll();
         AddComponent<SandboxOverlay>();
         Log.LogInfo("Disfigure Sandbox Mode loaded. Press F5 during a run; F8 exports loaded artwork.");
+        if (Array.IndexOf(Environment.GetCommandLineArgs(), "--sandbox-damage-cap-check") >= 0)
+            Application.Quit(DamageCap.Available ? 0 : 1);
+    }
+
+    public override bool Unload()
+    {
+        DamageCap.SetRemoved(false);
+        return base.Unload();
     }
 }
 
@@ -117,6 +131,7 @@ public sealed class SandboxOverlay : MonoBehaviour
     private int enemyPreviewWarmupFrames;
     private bool freezeEnemyPreviewsAfterWarmup;
     private IntPtr catalogGame;
+    private IntPtr damageCapGame;
     private cheatmanager? sandboxCheats;
     private bool previousTestMode;
     private bool previousDisableAllUnlocks;
@@ -152,6 +167,12 @@ public sealed class SandboxOverlay : MonoBehaviour
         else if (open && keyboard?.escapeKey?.wasPressedThisFrame == true) SetOpen(false);
 
         MaintainGameTestMode();
+        var gamePointer = game?.Pointer ?? IntPtr.Zero;
+        if (gamePointer != damageCapGame)
+        {
+            SetDamageCapRemoved(false);
+            damageCapGame = gamePointer;
+        }
         ZeroScore(game);
         MaintainRedlineSupplement(stats);
 
@@ -190,6 +211,7 @@ public sealed class SandboxOverlay : MonoBehaviour
 
     private void OnDestroy()
     {
+        SetDamageCapRemoved(false);
         if (open) SetOpen(false);
         RestoreGameTestMode();
         DestroyEnemyPreviewCamera();
@@ -288,6 +310,7 @@ public sealed class SandboxOverlay : MonoBehaviour
         GUI.Label(new Rect(x, y, innerWidth - 170f, 26f), "DISFIGURE SANDBOX");
         if (GUI.Button(new Rect(x + innerWidth - 160f, y, 80f, 26f), "Reset"))
         {
+            SetDamageCapRemoved(false);
             var resetStats = GameRefs.Instance?.playerStats;
             if (resetStats != null) ResetSelections(resetStats);
             else RefreshCatalog();
@@ -295,6 +318,13 @@ public sealed class SandboxOverlay : MonoBehaviour
         if (GUI.Button(new Rect(x + innerWidth - 70f, y, 70f, 26f), "Close")) SetOpen(false);
         y += 30f;
         GUI.Label(new Rect(x, y, innerWidth, 24f), message);
+        y += 28f;
+        var wasEnabled = GUI.enabled;
+        GUI.enabled = wasEnabled && DamageCap.Available && GameManager.instance != null;
+        var removed = GUI.Toggle(new Rect(x, y, innerWidth, 24f), DamageCap.Removed,
+            "damage cap removed");
+        GUI.enabled = wasEnabled;
+        if (removed != DamageCap.Removed) SetDamageCapRemoved(removed);
         y += 28f;
         DrawTabs(new Rect(x, y, innerWidth, 30f));
         y += 38f;
@@ -319,6 +349,21 @@ public sealed class SandboxOverlay : MonoBehaviour
             var listWidth = innerWidth - detailWidth - 16f;
             var hovered = DrawUpgrades(stats, x, y, listWidth, area.yMax - y - 16f);
             DrawDetails(new Rect(x + listWidth + 16f, y, detailWidth, area.yMax - y - 16f), hovered);
+        }
+    }
+
+    private void SetDamageCapRemoved(bool removed)
+    {
+        try
+        {
+            var changed = DamageCap.Removed != removed;
+            DamageCap.SetRemoved(removed);
+            if (changed) message = removed ? "Damage cap removed." : "Normal damage cap restored.";
+        }
+        catch (Exception exception)
+        {
+            message = "Could not change damage cap; see the BepInEx log.";
+            Logger?.LogError($"{message} {exception}");
         }
     }
 

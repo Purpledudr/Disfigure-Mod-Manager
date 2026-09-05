@@ -20,11 +20,11 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          tag="sandbox-v0.3.74"
+          tag="sandbox-v0.3.75"
           asset="SandboxMode/release/SandboxMode.dll"
           if gh release view "$tag" >/dev/null 2>&1; then
             gh release upload "$tag" "$asset" --clobber
           else
-            gh release create "$tag" "$asset" --latest=false --title "Disfigure Sandbox Mode 0.3.74" --notes "Adds timer controls up to 24 hours and reversible stacks for Robust, Refine, Pact, and Forge. Press F5 during a run to open Sandbox Mode."
+            gh release create "$tag" "$asset" --latest=false --title "Disfigure Sandbox Mode 0.3.75" --notes "Adds a damage cap removed checkbox above the sandbox tabs. Toggle it to bypass the 1,000,000,000 damage cap; unchecking it, Reset, or leaving the run restores the cap. Native damage and multiplier checks passed. Press F5 during a run to open Sandbox Mode."
           fi
 
