@@ -46,7 +46,7 @@
       "id": "run-checkpoint",
       "name": "Run Save & Quit (PLAYTEST)",
       "description": "Save and resume an in-progress run.",
-      "version": "0.8.25",
+      "version": "0.8.26",
       "downloadUrl": "https://raw.githubusercontent.com/Purpledudr/Disfigure-Mod-Manager/main/RunCheckpoint/release/RunCheckpoint.dll",
       "dllFilename": "RunCheckpoint.dll",
       "packageType": "dll",
