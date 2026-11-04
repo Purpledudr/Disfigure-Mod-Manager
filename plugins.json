@@ -51,6 +51,17 @@
       "dllFilename": "RunCheckpoint.dll",
       "packageType": "dll",
       "available": true
+    },
+    {
+      "id": "private-party",
+      "name": "Private Party (Beta)",
+      "description": "BETA: invite-only Steam co-op with 12 slots and an experimental 20-player option. Every player needs the mod. Requires multiplayer beta build 26329406; large matches are not yet verified.",
+      "version": "0.1.1",
+      "downloadUrl": "https://github.com/Purpledudr/Disfigure-Mod-Manager/releases/download/private-party-v0.1.1-beta/PrivatePartyMod-0.1.1-beta.zip",
+      "dllFilename": "PrivatePartyMod.dll",
+      "packageType": "zip",
+      "archivePath": "BepInEx/plugins/PrivatePartyMod/PrivatePartyMod.dll",
+      "available": true
     }
   ]
 }
