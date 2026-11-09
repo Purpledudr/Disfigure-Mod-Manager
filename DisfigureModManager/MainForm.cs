@@ -16,6 +16,7 @@ internal sealed class MainForm : Form
     private readonly Label locationState = new();
     private readonly Panel bepinExStatePanel = new();
     private readonly Button installBepInExButton = CreateButton("Install BepInEx", true);
+    private readonly Button repairSaveButton = CreateButton("Repair Save…", false);
     private readonly Label gameState = new();
     private readonly Label restartNotice = new();
     private readonly Label statusText = new();
@@ -158,7 +159,17 @@ internal sealed class MainForm : Form
         card.Controls.Add(FieldLabel("Plugin catalog"), 0, 1);
         card.Controls.Add(catalogUrlBox, 1, 1);
         card.Controls.Add(saveCatalog, 2, 1);
-        card.SetColumnSpan(saveCatalog, 2);
+        repairSaveButton.Margin = new Padding(0, 5, 0, 5);
+        repairSaveButton.Click += (_, _) =>
+        {
+            try
+            {
+                using var dialog = new SaveRepairForm(SaveRepair.ForCurrentUser(settings.GameFolder));
+                dialog.ShowDialog(this);
+            }
+            catch (Exception error) { ShowError(error.Message); }
+        };
+        card.Controls.Add(repairSaveButton, 3, 1);
         outer.Controls.Add(card);
         return outer;
     }
@@ -581,6 +592,7 @@ internal sealed class MainForm : Form
         availableGrid.Enabled = canModify;
         updateAllButton.Enabled = canModify && rows.Any(row => row.HasUpdate);
         installBepInExButton.Enabled = !busy && !gameRunning && GameLocator.IsGameFolder(settings.GameFolder) && !PluginService.HasBepInEx(settings.GameFolder);
+        repairSaveButton.Enabled = !gameRunning && GameLocator.IsGameFolder(settings.GameFolder);
     }
 
     private void ShowError(string message)

@@ -4,9 +4,11 @@ A simple desktop manager for Disfigure BepInEx plugins. It detects the game fold
 
 ## Download
 
-[Download Disfigure Mod Manager for Windows](https://github.com/Purpledudr/Disfigure-Mod-Manager/releases/download/manager-v1.0.0/DisfigureModManager-win-x64.zip)
+[Download Disfigure Mod Manager for Windows](https://github.com/Purpledudr/Disfigure-Mod-Manager/releases/download/manager-v1.1.0/DisfigureModManager-win-x64.zip)
 
 Extract the ZIP and run `DisfigureModManager.exe`. The manager automatically looks for Disfigure in Steam libraries; use **Browse** if the game is elsewhere.
+
+Use **Repair Save** to restore a readable backup or create a starter or custom profile. The tool archives your previous save and offers Undo.
 
 Linux and Steam Deck players running Disfigure through Proton should select a Windows x64 IL2CPP BepInEx package in the manager. A native Linux BepInEx package is not compatible with the Windows game under Proton.
 

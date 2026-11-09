@@ -9,10 +9,11 @@
     <AssemblyName>DisfigureModManager</AssemblyName>
     <RootNamespace>DisfigureModManager</RootNamespace>
     <ApplicationManifest>app.manifest</ApplicationManifest>
-    <Version>1.0.0</Version>
+    <Version>1.1.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="../DisfigureSavePreset/SavePreset.cs" Link="SavePreset.cs" />
     <None Update="appsettings.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="plugins.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>

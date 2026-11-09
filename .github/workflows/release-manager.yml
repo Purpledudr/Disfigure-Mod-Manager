@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - "DisfigureModManager/**"
+      - "DisfigureSavePreset/SavePreset.cs"
       - ".github/workflows/release-manager.yml"
   workflow_dispatch:
 
@@ -40,6 +41,5 @@ jobs:
           if (gh release view $tag) {
             gh release upload $tag DisfigureModManager-win-x64.zip --clobber
           } else {
-            gh release create $tag DisfigureModManager-win-x64.zip --latest=false --title "Disfigure Mod Manager $env:MANAGER_VERSION" --notes "Windows x64 build of the Disfigure Mod Manager. Extract the ZIP and run DisfigureModManager.exe."
+            gh release create $tag DisfigureModManager-win-x64.zip --latest=false --title "Disfigure Mod Manager $env:MANAGER_VERSION" --notes "Windows x64 build of the Disfigure Mod Manager. Extract the ZIP and run DisfigureModManager.exe. Choose Repair Save to recover a backup or create a starter or custom profile."
           }
-

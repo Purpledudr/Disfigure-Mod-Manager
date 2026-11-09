@@ -20,6 +20,15 @@ https://raw.githubusercontent.com/Purpledudr/Disfigure-Mod-Manager/main/plugins.
 
 The app remembers both values in `%LOCALAPPDATA%\DisfigureModManager\settings.json`.
 
+## Repair a save
+
+1. Select the Disfigure folder and open **Repair Save**. It works with the Windows Mono and IL2CPP save format and works without BepInEx or a catalog connection.
+2. Choose a readable game backup, a starter profile, or a custom profile. The custom form sets credits, weapons, and maps. The pistol and Map 1 are included.
+3. Turn off Disfigure’s Steam Cloud in **Properties → General**. Exit Disfigure and Steam completely, then preview and apply the profile. Steam Stats may still merge progression during online play.
+4. Use **Undo last repair** in the same dialog to restore the previous local save and progression settings. Every change archives the prior profile under `%LOCALAPPDATA%\DisfigureModManager\SaveBackups`. A queued standalone preset is archived and canceled after confirmation.
+
+Steam Deck repair has not been validated.
+
 ## Publish a standalone Windows app
 
 ```powershell
