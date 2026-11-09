@@ -143,6 +143,7 @@ internal static class SelfChecks
     private static void CheckProgressionRollback(string root)
     {
         const string credits = "Credits_h42";
+        const string binary = "profile_pref_legacy_blob_h42";
         const string discovery = "profile_pref_upgrade_discovered_sample_h42";
         const string volume = "sfxVolume_h42";
         var registryPath = @"Software\DisfigureModManager-self-check-" + Guid.NewGuid().ToString("N");
@@ -150,19 +151,37 @@ internal static class SelfChecks
         var registry = currentUser.CreateSubKey(registryPath);
         try
         {
-            var wallet = BitConverter.GetBytes(100f);
-            registry.SetValue(credits, wallet);
+            const long wallet = 0x123456789abcdef;
+            SaveRepair.SetRawPreference(registry, credits, (uint)Microsoft.Win32.RegistryValueKind.DWord, BitConverter.GetBytes(wallet));
+            var blob = BitConverter.GetBytes(100f);
+            registry.SetValue(binary, blob);
             registry.SetValue(discovery, 1);
             registry.SetValue(volume, 75);
             var repair = new SaveRepair(root, Path.Combine(root, "registry-profile"), Path.Combine(root, "registry-archives"),
                 writable => currentUser.OpenSubKey(registryPath, writable), () => { });
             var archive = repair.Apply(SaveRepair.CreateProfile(0, [], false, false), false, false);
-            Check(registry.GetValue(credits) is null && registry.GetValue(discovery) is null &&
+            Check(registry.GetValue(credits) is null && registry.GetValue(binary) is null && registry.GetValue(discovery) is null &&
                 (int?)registry.GetValue(volume) == 75, "only progression registry values are cleared");
             registry.SetValue(volume, 60);
             repair.Undo(archive, false);
-            Check(((byte[]?)registry.GetValue(credits))?.SequenceEqual(wallet) == true &&
+            Check(registry.GetValueKind(credits) == Microsoft.Win32.RegistryValueKind.DWord &&
+                (long?)registry.GetValue(credits) == wallet &&
+                ((byte[]?)registry.GetValue(binary))?.SequenceEqual(blob) == true &&
                 (int?)registry.GetValue(discovery) == 1 && (int?)registry.GetValue(volume) == 60, "undo restores typed progression and preserves current volume");
+
+            registry.DeleteValue(credits);
+            var legacyArchive = repair.Apply(SaveRepair.CreateProfile(0, [], false, false), false, false);
+            var snapshot = Path.Combine(legacyArchive, "snapshot.json");
+            var legacy = System.Text.Json.Nodes.JsonNode.Parse(File.ReadAllText(snapshot))!;
+            legacy["Preferences"] = new System.Text.Json.Nodes.JsonObject
+            {
+                [binary] = new System.Text.Json.Nodes.JsonObject { ["Kind"] = 3, ["Value"] = Convert.ToBase64String(blob) },
+                [discovery] = new System.Text.Json.Nodes.JsonObject { ["Kind"] = 4, ["Value"] = 1 }
+            };
+            File.WriteAllText(snapshot, legacy.ToJsonString());
+            repair.Undo(legacyArchive, false);
+            Check(((byte[]?)registry.GetValue(binary))?.SequenceEqual(blob) == true &&
+                (int?)registry.GetValue(discovery) == 1, "undo accepts archives written by manager 1.1.0");
         }
         finally
         {

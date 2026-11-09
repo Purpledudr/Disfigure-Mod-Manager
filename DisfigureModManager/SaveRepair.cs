@@ -1,11 +1,15 @@
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
+using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using DisfigureSavePreset;
 using Microsoft.Win32;
+using Microsoft.Win32.SafeHandles;
 
 namespace DisfigureModManager;
 
@@ -22,6 +26,9 @@ internal sealed class SaveRepair(string gameFolder, string saveDirectory, string
     private const string RegistryPath = @"Software\ColdBrew Entertainment\Disfigure";
     private const int MaxSaveBytes = 8 * 1024 * 1024;
     private const int MaxArchivedFileBytes = 64 * 1024 * 1024;
+    private const int MaxPreferenceBytes = 8 * 1024 * 1024;
+    private const int ValueNotFound = 2;
+    private const int MoreData = 234;
     private static readonly string[] ProfileFiles = [SavePreset.SaveFileName, .. SavePreset.SidecarSuffixes.Select(suffix => SavePreset.SaveFileName + suffix)];
     private static readonly string[] LoaderRoots = ["BepInEx", "BepInExMono"];
     private static readonly UTF8Encoding StrictUtf8 = new(false, true);
@@ -117,7 +124,6 @@ internal sealed class SaveRepair(string gameFolder, string saveDirectory, string
         for (var i = 0; i < LoaderRoots.Length; i++)
             CopyIfPresent(QueuePath(i), ArchivedQueue(archive, i));
         var before = ReadPreferences();
-        foreach (var value in before.Values) value.GetValue();
         File.WriteAllText(Path.Combine(archive, "previous"), previous ?? "");
         SavePreset.ReplaceFile(Path.Combine(archive, "snapshot.json"), JsonSerializer.SerializeToUtf8Bytes(new Snapshot(saveDirectory, files, before)));
 
@@ -177,10 +183,12 @@ internal sealed class SaveRepair(string gameFolder, string saveDirectory, string
                 throw new InvalidDataException("Archived file is missing or changed: " + name);
             files.Add(name, bytes);
         }
-        foreach (var value in snapshot.Preferences.Values) value.GetValue();
+        var preferences = new Dictionary<string, Preference>(StringComparer.OrdinalIgnoreCase);
+        foreach (var (name, value) in snapshot.Preferences)
+            preferences.Add(name, new(value.Kind, value.GetBytes()));
         foreach (var (name, bytes) in files)
             SetFile(Path.Combine(saveDirectory, name), bytes);
-        SetPreferences(snapshot.Preferences, current);
+        SetPreferences(preferences, current);
     }
 
     private string? ReadLatest()
@@ -280,12 +288,47 @@ internal sealed class SaveRepair(string gameFolder, string saveDirectory, string
         if (registry is null) return values;
         foreach (var name in registry.GetValueNames().Where(IsProgression))
         {
-            var value = registry.GetValue(name, null, RegistryValueOptions.DoNotExpandEnvironmentNames);
+            var value = ReadRawPreference(registry.Handle, name);
             if (value is not null)
-                values.Add(name, new(registry.GetValueKind(name), JsonSerializer.SerializeToElement(value)));
+                values.Add(name, value);
         }
         return values;
     }
+
+    private static Preference? ReadRawPreference(SafeRegistryHandle key, string name)
+    {
+        // Unity can store a value whose byte count differs from the size implied by its registry type.
+        var size = 0;
+        var status = RegQueryValueExW(key, name, IntPtr.Zero, out _, null, ref size);
+        if (status == ValueNotFound) return null;
+        if (status != 0) throw new Win32Exception(status, "Could not read progression value " + name);
+
+        for (var attempt = 0; attempt < 3; attempt++)
+        {
+            if (size < 0 || size > MaxPreferenceBytes)
+                throw new InvalidDataException("Progression value is too large to archive: " + name);
+            var bytes = new byte[size];
+            status = RegQueryValueExW(key, name, IntPtr.Zero, out var kind, bytes, ref size);
+            if (status == ValueNotFound) return null;
+            if (status == MoreData || (status == 0 && size > bytes.Length)) continue;
+            if (status != 0) throw new Win32Exception(status, "Could not read progression value " + name);
+            return new(kind, size == bytes.Length ? bytes : bytes[..size]);
+        }
+        throw new IOException("Progression value changed while it was being read: " + name);
+    }
+
+    internal static void SetRawPreference(RegistryKey registry, string name, uint kind, byte[] bytes)
+    {
+        var status = RegSetValueExW(registry.Handle, name, 0, kind, bytes, bytes.Length);
+        if (status != 0) throw new Win32Exception(status, "Could not restore progression value " + name);
+    }
+
+    [DllImport("advapi32.dll", ExactSpelling = true, CharSet = CharSet.Unicode)]
+    private static extern int RegQueryValueExW(SafeRegistryHandle key, string name, IntPtr reserved, out uint kind,
+        [Out] byte[]? bytes, ref int size);
+
+    [DllImport("advapi32.dll", ExactSpelling = true, CharSet = CharSet.Unicode)]
+    private static extern int RegSetValueExW(SafeRegistryHandle key, string name, int reserved, uint kind, byte[] bytes, int size);
 
     private void SetPreferences(Dictionary<string, Preference> target, Dictionary<string, Preference> current)
     {
@@ -295,7 +338,7 @@ internal sealed class SaveRepair(string gameFolder, string saveDirectory, string
             registry.DeleteValue(name, throwOnMissingValue: false);
         foreach (var (name, preference) in target)
             if (!current.TryGetValue(name, out var value) || !preference.Matches(value))
-                registry.SetValue(name, preference.GetValue(), preference.Kind);
+                SetRawPreference(registry, name, preference.Kind, preference.GetBytes());
         if (!PreferencesMatch(target, ReadPreferences()))
             throw new IOException("Progression settings did not match the requested profile.");
     }
@@ -339,18 +382,32 @@ internal sealed class SaveRepair(string gameFolder, string saveDirectory, string
     }
 
     private sealed record Snapshot(string Profile, Dictionary<string, string> Files, Dictionary<string, Preference> Preferences);
-    private sealed record Preference(RegistryValueKind Kind, JsonElement Value)
+    private sealed record Preference(uint Kind, byte[]? Raw,
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] JsonElement? Value = null)
     {
-        internal bool Matches(Preference other) => Kind == other.Kind && Value.GetRawText() == other.Value.GetRawText();
+        internal bool Matches(Preference other) => Kind == other.Kind && GetBytes().AsSpan().SequenceEqual(other.GetBytes());
 
-        internal object GetValue() => Kind switch
+        internal byte[] GetBytes()
         {
-            RegistryValueKind.DWord => Value.GetInt32(),
-            RegistryValueKind.QWord => Value.GetInt64(),
-            RegistryValueKind.Binary => Value.GetBytesFromBase64(),
-            RegistryValueKind.MultiString => Value.Deserialize<string[]>()!,
-            RegistryValueKind.String or RegistryValueKind.ExpandString => Value.GetString()!,
-            _ => throw new InvalidDataException("Unsupported Disfigure registry value type.")
-        };
+            if (Raw is not null)
+            {
+                if (Raw.Length > MaxPreferenceBytes)
+                    throw new InvalidDataException("Archived progression value is too large.");
+                return Raw;
+            }
+
+            // Version 1.1.0 archives contain a JSON value rather than raw registry bytes.
+            var value = Value ?? throw new InvalidDataException("Archived progression value is missing.");
+            return (RegistryValueKind)Kind switch
+            {
+                RegistryValueKind.DWord => BitConverter.GetBytes(value.GetInt32()),
+                RegistryValueKind.QWord => BitConverter.GetBytes(value.GetInt64()),
+                RegistryValueKind.Binary => value.GetBytesFromBase64(),
+                RegistryValueKind.MultiString => Encoding.Unicode.GetBytes(string.Concat(value.Deserialize<string[]>()!
+                    .Select(item => item + "\0")) + "\0"),
+                RegistryValueKind.String or RegistryValueKind.ExpandString => Encoding.Unicode.GetBytes(value.GetString() + "\0"),
+                _ => throw new InvalidDataException("Unsupported legacy progression value type.")
+            };
+        }
     }
 }

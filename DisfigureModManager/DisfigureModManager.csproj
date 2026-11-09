@@ -9,7 +9,7 @@
     <AssemblyName>DisfigureModManager</AssemblyName>
     <RootNamespace>DisfigureModManager</RootNamespace>
     <ApplicationManifest>app.manifest</ApplicationManifest>
-    <Version>1.1.0</Version>
+    <Version>1.1.1</Version>
   </PropertyGroup>
 
   <ItemGroup>

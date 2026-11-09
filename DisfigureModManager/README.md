@@ -29,6 +29,8 @@ The app remembers both values in `%LOCALAPPDATA%\DisfigureModManager\settings.js
 
 Steam Deck repair has not been validated.
 
+If Repair Save in 1.1.0 shows “One of the identified items was in an invalid format,” update to 1.1.1 or later and retry.
+
 ## Publish a standalone Windows app
 
 ```powershell

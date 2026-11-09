@@ -4,7 +4,7 @@ A simple desktop manager for Disfigure BepInEx plugins. It detects the game fold
 
 ## Download
 
-[Download Disfigure Mod Manager for Windows](https://github.com/Purpledudr/Disfigure-Mod-Manager/releases/download/manager-v1.1.0/DisfigureModManager-win-x64.zip)
+[Download Disfigure Mod Manager for Windows](https://github.com/Purpledudr/Disfigure-Mod-Manager/releases/download/manager-v1.1.1/DisfigureModManager-win-x64.zip)
 
 Extract the ZIP and run `DisfigureModManager.exe`. The manager automatically looks for Disfigure in Steam libraries; use **Browse** if the game is elsewhere.
 
